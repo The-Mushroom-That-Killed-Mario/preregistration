@@ -53,11 +53,7 @@ public class Role {
     private boolean isActual;
 
 
-    @ManyToMany
-    @JoinTable(name = "l_user_role",
-            joinColumns = @JoinColumn(name = "role_id"),
-            inverseJoinColumns = @JoinColumn(name = "user_id")
-    )
+    @ManyToMany(mappedBy = "roles", fetch = FetchType.EAGER)
     @JsonIgnoreProperties("roles")
     private Set<User> users = Collections.emptySet();
 

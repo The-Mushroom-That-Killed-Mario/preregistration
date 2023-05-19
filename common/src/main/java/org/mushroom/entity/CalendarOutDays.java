@@ -5,6 +5,8 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
@@ -25,8 +27,10 @@ public class CalendarOutDays {
     @Column(name = "is_actual")
     private boolean isActual;
 
-    @Column(name = "terminal_services_id")
-    private Long terminal_services_id;
+
+    @ManyToOne
+    @JoinColumn(name = "terminal_services_id")
+    private TerminalServices terminalService;
 
 }
 

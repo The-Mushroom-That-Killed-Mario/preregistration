@@ -14,7 +14,7 @@ create table public.role
 alter table public.role
     owner to postgres;
 
-create table public.user
+create table public."user"
 (
     id           bigserial
         constraint users_pkey
@@ -27,13 +27,10 @@ create table public.user
     email        varchar(50),
     created      timestamp,
     changed      timestamp,
-    deleted      timestamp,
-    role_id      integer
-        constraint users_roles_id_fk
-            references public.role
+    deleted      timestamp
 );
 
-alter table public.user
+alter table public."user"
     owner to postgres;
 
 create table public.terminal
@@ -180,4 +177,22 @@ alter table public.l_week_days_schedule
 
 create unique index l_week_day_schedule_id_uindex
     on public.l_week_days_schedule (id);
+
+create table public.l_user_role
+(
+    id          bigserial
+        constraint l_user_role_pk
+            primary key,
+    user_id     bigint       not null,
+    role_id     integer      not null,
+    created     timestamp(6) not null,
+    changed     timestamp(6),
+    "is_actual" boolean      not null
+);
+
+alter table public.l_user_role
+    owner to postgres;
+
+create unique index l_user_role_id_uindex
+    on public.l_user_role (id);
 

@@ -56,7 +56,7 @@ public class User {
     @Column(name = "password")
     private String password;
     @Column(name = "phone_number")
-    private String phone_number;
+    private String phoneNumber;
     @Column(name = "email")
     private String email;
     @Column(name = "created")
@@ -66,8 +66,15 @@ public class User {
     @Column(name = "deleted")
     private LocalDateTime deleted;
 
-    @ManyToMany(mappedBy = "users", cascade = CascadeType.ALL, fetch = FetchType.EAGER)
+
+    @ManyToMany(fetch = FetchType.EAGER)
+    @JoinTable(name = "l_user_role",
+            joinColumns = @JoinColumn(name = "user_id"),
+            inverseJoinColumns = @JoinColumn(name = "role_id")
+    )
     @JsonIgnoreProperties("users")
     private Set<Role> roles = Collections.emptySet();
 
+    @OneToOne(mappedBy = "user", fetch = FetchType.EAGER)
+    private AdvancedAppointment advancedAppointment;
 }

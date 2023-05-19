@@ -9,6 +9,7 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 import lombok.ToString;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
@@ -55,11 +56,8 @@ public class Break {
     @Column(name = "is_actual")
     private boolean isActual;
 
-    @ManyToMany(fetch = FetchType.EAGER)
-    @JoinTable(name = "l_breaks",
-            joinColumns = @JoinColumn(name = "break_id"),
-            inverseJoinColumns = @JoinColumn(name = "week_day_schedule_id")
-    )
+    //зависимая сторона связи
+    @ManyToMany(mappedBy = "breaks", cascade = CascadeType.ALL, fetch = FetchType.EAGER)
     @JsonIgnoreProperties("breaks")
     private Set<DaySchedule> scheduleDays = Collections.emptySet();
 }
