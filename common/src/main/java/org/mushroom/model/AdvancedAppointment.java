@@ -1,9 +1,7 @@
-package org.mushroom.entity;
+package org.mushroom.model;
 
-import com.fasterxml.jackson.annotation.JsonBackReference;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
-import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -29,10 +27,10 @@ import java.time.LocalTime;
 @Setter
 @Getter
 @EqualsAndHashCode(exclude = {
-        "service","user","terminal"
+        "service", "user", "terminal"
 })
 @ToString(exclude = {
-        "service","user","terminal"
+        "service", "user", "terminal"
 })
 
 @Entity
@@ -43,33 +41,33 @@ public class AdvancedAppointment {
     private Long id;
 
     @OneToOne(fetch = FetchType.EAGER)
-    @JoinColumn(name =  "user_id")
+    @JoinColumn(name = "user_id")
     private User user;
 
     @OneToOne(fetch = FetchType.EAGER)
-    @JoinColumn(name =  "terminal_id")
+    @JoinColumn(name = "terminal_id")
     private Terminal terminal;
 
     @OneToOne(fetch = FetchType.EAGER)
-    @JoinColumn(name =  "service_id")
+    @JoinColumn(name = "service_id")
     private Service service;
 
-    @Column(name =  "date")
+    @Column(name = "date")
     private LocalDate date;
 
-    @Column(name =  "time_from")
+    @Column(name = "time_from")
     private LocalTime timeFrom;
 
-    @Column(name =  "time_to")
+    @Column(name = "time_to")
     private LocalTime timeTo;
 
-    @Column(name =  "created")
+    @Column(name = "created")
     private LocalDateTime created;
 
-    @Column(name =  "changed")
+    @Column(name = "changed")
     private LocalDateTime changed;
 
-    @Column(name =  "is_actual")
+    @Column(name = "is_actual")
     private boolean isActual;
 
 }

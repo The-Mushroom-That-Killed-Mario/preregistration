@@ -4,8 +4,8 @@ spring:
       jdbc-url: "jdbc:postgresql://localhost:5432/preregistration?useUnicode=true&useJDBCCompliantTimezoneShift=true&useLegacyDatetimeCode=false&serverTimezone=UTC"
       maximum-pool-size: 20
       driver-class-name: org.postgresql.Driver
-    username: YOUR_LOGIN
-    password: YOUR_PASS
+    username: postgres
+    password: root
     url: "jdbc:postgresql://localhost:5432/preregistration?useUnicode=true&useJDBCCompliantTimezoneShift=true&useLegacyDatetimeCode=false&serverTimezone=UTC"
     driver-class-name: org.postgresql.Driver
   flyway:
@@ -25,10 +25,16 @@ spring:
         current_session_context_class: org.springframework.orm.hibernate5.SpringSessionContext
         format_sql: true
         show_sql: true
-
+#  mapper:
+#    matching-strategy: STANDARD
+#    skip-null-enabled: true
 ###Отображение журнала запросов hibernate
 #logging:
 #  level:
 #    org:
 #      hibernate:
 #        type: trace
+
+---
+
+

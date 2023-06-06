@@ -1,49 +1,61 @@
-package org.mushroom.entity;
+package org.mushroom.model;
 
-import com.fasterxml.jackson.annotation.JsonManagedReference;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
+import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import lombok.ToString;
 
-import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.EnumType;
+import javax.persistence.Enumerated;
 import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.ManyToOne;
-import javax.persistence.OneToOne;
+import javax.persistence.ManyToMany;
 import javax.persistence.Table;
 import java.time.LocalDateTime;
+import java.util.Collections;
+import java.util.Set;
 
 @AllArgsConstructor
 @NoArgsConstructor
 @Builder
 @Setter
 @Getter
+@EqualsAndHashCode(exclude = {
+        "users"
+})
+@ToString(exclude = {
+        "users"
+})
+
 @Entity
-@Table(name = "service")
-public class Service {
+@Table(name = "role")
+public class Role {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
+
     @Column(name = "name")
-    private String name;
-    @Column(name = "duration")
-    private Integer duration;
+    @Enumerated(EnumType.STRING)
+    private SystemRole name;
+
     @Column(name = "created")
     private LocalDateTime created;
     @Column(name = "changed")
     private LocalDateTime changed;
-    @Column(name = "deleted")
-    private LocalDateTime deleted;
+    @Column(name = "is_actual")
+    private boolean isActual;
 
-    @OneToOne(mappedBy = "service", fetch = FetchType.EAGER)
-    private TerminalServices terminalService;
 
-    @OneToOne(mappedBy = "service", fetch = FetchType.EAGER)
-    private AdvancedAppointment advancedAppointment;
+    @ManyToMany(mappedBy = "roles", fetch = FetchType.EAGER)
+    @JsonIgnoreProperties("roles")
+    private Set<User> users = Collections.emptySet();
+
 }

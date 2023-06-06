@@ -1,4 +1,4 @@
-package org.mushroom.entity.enums;
+package org.mushroom.model;
 
 public enum DayOfWeek {
     MONDAY,
