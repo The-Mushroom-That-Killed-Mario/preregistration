@@ -1,8 +1,8 @@
 package org.mushroom.service.impl;
 
 import lombok.RequiredArgsConstructor;
+import org.mushroom.exception.DeletedEntityException;
 import org.mushroom.exception.EntityNotFoundException;
-import org.mushroom.exception.IsDeletedEntityException;
 import org.mushroom.model.Role;
 import org.mushroom.repository.RoleRepository;
 import org.mushroom.service.RoleService;
@@ -26,16 +26,17 @@ public class RoleServiceImpl implements RoleService {
     @Override
     public Role findById(Long id) {
         Role role =  roleRepository.findById(id).orElseThrow(() -> new EntityNotFoundException(id, Role.class));
-        if (!role.isActual()){
-            throw new IsDeletedEntityException(id, Role.class);
+        if (role.isActual()){
+            throw new DeletedEntityException(id, Role.class);
         }
         return role;
     }
 
     @Override
     public List<Role> findAll() {
-        return roleRepository.findAllByisActualIsTrueOrderById();
-//        return null;
+        List<Role> roles = roleRepository.findAll();
+        roles.removeIf(Role::isActual);
+        return roles;
     }
 
 
@@ -58,7 +59,7 @@ public class RoleServiceImpl implements RoleService {
     public void delete(Long id) {
         roleRepository.deleteById(id);
     }
-
+    
     @Override
     public void softDelete(Long id) {
         Role role = findById(id);
@@ -67,7 +68,5 @@ public class RoleServiceImpl implements RoleService {
             roleRepository.save(role);
         }
     }
-
-
 
 }

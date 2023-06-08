@@ -1,6 +1,9 @@
 package org.mushroom.model;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.EqualsAndHashCode;
@@ -55,7 +58,7 @@ public class Role {
 
 
     @ManyToMany(mappedBy = "roles", fetch = FetchType.EAGER)
-    @JsonIgnoreProperties("roles")
+    @JsonBackReference
     private Set<User> users = Collections.emptySet();
 
 }

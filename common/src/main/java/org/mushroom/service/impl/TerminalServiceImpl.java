@@ -1,44 +1,72 @@
 package org.mushroom.service.impl;
 
+import lombok.RequiredArgsConstructor;
+import org.mushroom.exception.DeletedEntityException;
+import org.mushroom.exception.EntityNotFoundException;
 import org.mushroom.model.Terminal;
+import org.mushroom.model.Terminal;
+import org.mushroom.repository.TerminalRepository;
 import org.mushroom.service.TerminalService;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
+import org.springframework.stereotype.Service;
 
+import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Optional;
-
+@RequiredArgsConstructor
+@Service
 public class TerminalServiceImpl implements TerminalService {
+    private final TerminalRepository terminalRepository;
+
     @Override
-    public Optional<Terminal> findOne(Long aLong) {
-        return Optional.empty();
+    public Optional<Terminal> findOne(Long id) {
+        return Optional.of(findById(id));
     }
 
     @Override
-    public Terminal findById(Long aLong) {
-        return null;
+    public Terminal findById(Long id) {
+        Terminal terminal =  terminalRepository.findById(id).orElseThrow(() -> new EntityNotFoundException(id, Terminal.class));
+        if (terminal.getDeleted()!=null){
+            throw new DeletedEntityException(id, Terminal.class);
+        }
+        return terminal;
     }
 
     @Override
     public List<Terminal> findAll() {
-        return null;
+        List<Terminal> terminals = terminalRepository.findAll();
+        terminals.removeIf(x->x.getDeleted()==null);
+        return terminals;
+    }
+
+
+    @Override
+    public Terminal create(Terminal terminal) {
+        return terminalRepository.save(terminal);
     }
 
     @Override
-    public Terminal create(Terminal object) {
-        return null;
+    public Terminal update(Terminal terminal) {
+        if (terminalRepository.existsById(terminal.getId())) {
+            terminal.setChanged(LocalDateTime.now());
+            return terminalRepository.save(terminal);
+        } else {
+            throw new EntityNotFoundException(terminal.getId(), Terminal.class);
+        }
     }
 
     @Override
-    public Terminal update(Terminal object) {
-        return null;
+    public void delete(Long id) {
+        terminalRepository.deleteById(id);
     }
 
     @Override
-    public void delete(Long aLong) {
-
-    }
-
-    @Override
-    public void softDelete(Long aLong) {
-
+    public void softDelete(Long id) {
+        Terminal terminal = findById(id);
+        if (terminal.getDeleted() != null) {
+            terminal.setDeleted(LocalDateTime.now());
+            terminalRepository.save(terminal);
+        }
     }
 }

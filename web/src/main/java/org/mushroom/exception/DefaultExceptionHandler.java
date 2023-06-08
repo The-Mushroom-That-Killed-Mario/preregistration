@@ -8,6 +8,7 @@ import org.springframework.web.bind.annotation.ExceptionHandler;
 
 import java.time.LocalDateTime;
 
+import static org.mushroom.exception.ApplicationErrorCodes.BAD_REQUEST_PARAMETER;
 import static org.mushroom.exception.ApplicationErrorCodes.USER_NOT_FOUND;
 
 
@@ -50,7 +51,7 @@ public class DefaultExceptionHandler {
 //                HttpStatus.INTERNAL_SERVER_ERROR);
 //    }
 
-    @ExceptionHandler(RuntimeException.class)
+    @ExceptionHandler(EntityNotFoundException.class)
     public ResponseEntity<ErrorMessage> handleEntityNotFoundException(EntityNotFoundException e) {
         /* Handles all other exceptions. Status code 500. */
 
@@ -65,5 +66,21 @@ public class DefaultExceptionHandler {
                         e.getMessage()
                 ),
                 HttpStatus.INTERNAL_SERVER_ERROR);
+    }
+
+    @ExceptionHandler(IllegalRequestException.class)
+    public ResponseEntity<ErrorMessage> handleIllegalRequestException(IllegalRequestException e) {
+
+//        String exceptionUniqueId = generator.uuidGenerator();
+
+//        log.error(exceptionUniqueId + e.getMessage(), e);
+
+        return new ResponseEntity<>(
+                new ErrorMessage(
+                        System.currentTimeMillis(),
+                        BAD_REQUEST_PARAMETER.getCodeId(),
+                        e.getBindingResult().getAllErrors().toString()
+                ),
+                HttpStatus.BAD_REQUEST);
     }
 }

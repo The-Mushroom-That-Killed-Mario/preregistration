@@ -21,7 +21,6 @@ import java.time.LocalDateTime;
 @Builder
 @Setter
 @Getter
-
 @Entity
 @Table(name = "terminal")
 public class Terminal {

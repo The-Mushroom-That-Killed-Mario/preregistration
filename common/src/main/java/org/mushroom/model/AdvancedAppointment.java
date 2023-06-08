@@ -1,5 +1,6 @@
 package org.mushroom.model;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.EqualsAndHashCode;
@@ -42,6 +43,7 @@ public class AdvancedAppointment {
 
     @OneToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "user_id")
+    @JsonBackReference
     private User user;
 
     @OneToOne(fetch = FetchType.EAGER)
