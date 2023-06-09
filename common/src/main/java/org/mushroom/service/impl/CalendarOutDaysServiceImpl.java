@@ -25,7 +25,7 @@ public class CalendarOutDaysServiceImpl implements CalendarOutDaysService {
     @Override
     public CalendarOutDays findById(Long id) {
         CalendarOutDays calendarOutDays =  calendarOutDaysRepository.findById(id).orElseThrow(() -> new EntityNotFoundException(id, CalendarOutDays.class));
-        if (calendarOutDays.isActual()){
+        if (!calendarOutDays.isActual()){
             throw new DeletedEntityException(id, CalendarOutDays.class);
         }
         return calendarOutDays;
@@ -34,24 +34,23 @@ public class CalendarOutDaysServiceImpl implements CalendarOutDaysService {
     @Override
     public List<CalendarOutDays> findAll() {
         List<CalendarOutDays> calendarOutDays = calendarOutDaysRepository.findAll();
-        calendarOutDays.removeIf(CalendarOutDays::isActual);
+        calendarOutDays.removeIf(x->!x.isActual());
         return calendarOutDays;
     }
 
 
     @Override
     public CalendarOutDays create(CalendarOutDays calendarOutDays) {
+        calendarOutDays.setCreated(LocalDateTime.now());
+        calendarOutDays.setChanged(LocalDateTime.now());
         return calendarOutDaysRepository.save(calendarOutDays);
     }
 
     @Override
     public CalendarOutDays update(CalendarOutDays calendarOutDays) {
-        if (calendarOutDaysRepository.existsById(calendarOutDays.getId())) {
+            findById(calendarOutDays.getId());
             calendarOutDays.setChanged(LocalDateTime.now());
             return calendarOutDaysRepository.save(calendarOutDays);
-        } else {
-            throw new EntityNotFoundException(calendarOutDays.getId(), CalendarOutDays.class);
-        }
     }
 
     @Override

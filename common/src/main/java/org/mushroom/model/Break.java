@@ -36,6 +36,7 @@ import java.util.Set;
 })
 @Entity
 @Table(name = "break")
+
 public class Break {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -46,9 +47,9 @@ public class Break {
     @Column(name = "to_time")
     private LocalTime toTime;
     @Column(name = "created")
-    private LocalDateTime created;
+    private LocalDateTime created = LocalDateTime.now();
     @Column(name = "changed")
-    private LocalDateTime changed;
+    private LocalDateTime changed = LocalDateTime.now();
     @Column(name = "is_actual")
     private boolean isActual;
 

@@ -24,8 +24,8 @@ public class AdvancedAppointmentServiceImpl implements AdvancedAppointmentServic
 
     @Override
     public AdvancedAppointment findById(Long id) {
-        AdvancedAppointment advancedAppointment =  advancedAppointmentRepository.findById(id).orElseThrow(() -> new EntityNotFoundException(id, AdvancedAppointment.class));
-        if (advancedAppointment.isActual()){
+        AdvancedAppointment advancedAppointment = advancedAppointmentRepository.findById(id).orElseThrow(() -> new EntityNotFoundException(id, AdvancedAppointment.class));
+        if (!advancedAppointment.isActual()) {
             throw new DeletedEntityException(id, AdvancedAppointment.class);
         }
         return advancedAppointment;
@@ -34,24 +34,24 @@ public class AdvancedAppointmentServiceImpl implements AdvancedAppointmentServic
     @Override
     public List<AdvancedAppointment> findAll() {
         List<AdvancedAppointment> advancedAppointments = advancedAppointmentRepository.findAll();
-        advancedAppointments.removeIf(AdvancedAppointment::isActual);
+        advancedAppointments.removeIf(x -> !x.isActual());
         return advancedAppointments;
     }
 
 
     @Override
     public AdvancedAppointment create(AdvancedAppointment advancedAppointment) {
+        advancedAppointment.setCreated(LocalDateTime.now());
+        advancedAppointment.setChanged(LocalDateTime.now());
         return advancedAppointmentRepository.save(advancedAppointment);
     }
 
     @Override
     public AdvancedAppointment update(AdvancedAppointment advancedAppointment) {
-        if (advancedAppointmentRepository.existsById(advancedAppointment.getId())) {
-            advancedAppointment.setChanged(LocalDateTime.now());
-            return advancedAppointmentRepository.save(advancedAppointment);
-        } else {
-            throw new EntityNotFoundException(advancedAppointment.getId(), AdvancedAppointment.class);
-        }
+        findById(advancedAppointment.getId());
+        advancedAppointment.setChanged(LocalDateTime.now());
+        return advancedAppointmentRepository.save(advancedAppointment);
+
     }
 
     @Override

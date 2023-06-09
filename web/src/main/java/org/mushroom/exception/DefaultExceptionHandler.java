@@ -6,10 +6,9 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 
-import java.time.LocalDateTime;
-
 import static org.mushroom.exception.ApplicationErrorCodes.BAD_REQUEST_PARAMETER;
-import static org.mushroom.exception.ApplicationErrorCodes.USER_NOT_FOUND;
+import static org.mushroom.exception.ApplicationErrorCodes.ENTITY_NOT_FOUND;
+
 
 
 @ControllerAdvice
@@ -17,22 +16,19 @@ import static org.mushroom.exception.ApplicationErrorCodes.USER_NOT_FOUND;
 public class DefaultExceptionHandler {
 
 
-//    @ExceptionHandler(Exception.class)
-//    public ResponseEntity<ErrorMessage> handleOthersException(Exception e) {
-//        /* Handles all other exceptions. Status code 500. */
-//
-//        String exceptionUniqueId = generator.uuidGenerator();
-//
-//        log.error(exceptionUniqueId + e.getMessage(), e);
-//
-//        return new ResponseEntity<>(
-//                new ErrorMessage(
-//                        exceptionUniqueId,
-//                        FATAL_ERROR.getCodeId(),
-//                        e.getMessage()
-//                ),
-//                HttpStatus.INTERNAL_SERVER_ERROR);
-//    }
+    @ExceptionHandler(Exception.class)
+    public ResponseEntity<ErrorMessage> handleOthersException(Exception e) {
+        /* Handles all other exceptions. Status code 500. */
+
+
+        return new ResponseEntity<>(
+                new ErrorMessage(
+                        System.currentTimeMillis(),
+                        ENTITY_NOT_FOUND.getCodeId(),
+                        e.getMessage()
+                ),
+                HttpStatus.INTERNAL_SERVER_ERROR);
+    }
 
 //    @ExceptionHandler(RuntimeException.class)
 //    public ResponseEntity<ErrorMessage> handleRuntimeException(RuntimeException e) {
@@ -51,9 +47,8 @@ public class DefaultExceptionHandler {
 //                HttpStatus.INTERNAL_SERVER_ERROR);
 //    }
 
-    @ExceptionHandler(EntityNotFoundException.class)
-    public ResponseEntity<ErrorMessage> handleEntityNotFoundException(EntityNotFoundException e) {
-        /* Handles all other exceptions. Status code 500. */
+    @ExceptionHandler({EntityNotFoundException.class, DeletedEntityException.class})
+    public ResponseEntity<ErrorMessage> handleEntityNotFoundException(RuntimeException e) {
 
 //        String exceptionUniqueId = generator.uuidGenerator();
 
@@ -62,16 +57,14 @@ public class DefaultExceptionHandler {
         return new ResponseEntity<>(
                 new ErrorMessage(
                         System.currentTimeMillis(),
-                        USER_NOT_FOUND.getCodeId(),
+                        ENTITY_NOT_FOUND.getCodeId(),
                         e.getMessage()
                 ),
-                HttpStatus.INTERNAL_SERVER_ERROR);
+                HttpStatus.NOT_FOUND);
     }
 
     @ExceptionHandler(IllegalRequestException.class)
     public ResponseEntity<ErrorMessage> handleIllegalRequestException(IllegalRequestException e) {
-
-//        String exceptionUniqueId = generator.uuidGenerator();
 
 //        log.error(exceptionUniqueId + e.getMessage(), e);
 

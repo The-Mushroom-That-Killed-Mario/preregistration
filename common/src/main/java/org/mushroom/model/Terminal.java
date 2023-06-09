@@ -1,10 +1,13 @@
 package org.mushroom.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
+import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import lombok.ToString;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -21,6 +24,15 @@ import java.time.LocalDateTime;
 @Builder
 @Setter
 @Getter
+@EqualsAndHashCode(exclude = {
+        "advancedAppointment",
+        "terminalService"
+})
+@ToString(exclude = {
+        "advancedAppointment",
+        "terminalService"
+})
+@JsonIgnoreProperties({"advancedAppointment","terminalService"})
 @Entity
 @Table(name = "terminal")
 public class Terminal {
@@ -30,16 +42,22 @@ public class Terminal {
 
     @Column(name = "name")
     private String name;
+
     @Column(name = "ip_address")
     private String ipAddress;
+
     @Column(name = "physical_address")
     private String physicalAddress;
+
     @Column(name = "port")
     private short port;
+
     @Column(name = "created")
-    private LocalDateTime created;
+    private LocalDateTime created = LocalDateTime.now();
+
     @Column(name = "changed")
-    private LocalDateTime changed;
+    private LocalDateTime changed = LocalDateTime.now();
+
     @Column(name = "deleted")
     private LocalDateTime deleted;
 

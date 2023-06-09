@@ -17,5 +17,5 @@ public class TerminalServicesDTO {
     private Terminal terminal;
     private LocalDateTime created;
     private LocalDateTime changed;
-    private boolean isActual;
+//    private boolean isActual;
 }

@@ -1,13 +1,11 @@
 package org.mushroom.service.impl;
 
 import lombok.RequiredArgsConstructor;
-import org.mushroom.exception.EntityNotFoundException;
 import org.mushroom.exception.DeletedEntityException;
+import org.mushroom.exception.EntityNotFoundException;
 import org.mushroom.model.User;
 import org.mushroom.repository.UserRepository;
 import org.mushroom.service.UserService;
-import org.springframework.data.domain.Page;
-import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
@@ -37,24 +35,23 @@ public class UserServiceImpl implements UserService {
     @Override
     public List<User> findAll() {
         List<User> users = userRepository.findAll();
-        users.removeIf(x->x.getDeleted()==null);
+        users.removeIf(x->x.getDeleted()!=null);
         return users;
     }
 
 
     @Override
     public User create(User user) {
+        user.setCreated(LocalDateTime.now());
+        user.setChanged(LocalDateTime.now());
         return userRepository.save(user);
     }
 
     @Override
     public User update(User user) {
-        if (userRepository.existsById(user.getId())) {
-            user.setChanged(LocalDateTime.now());
-            return userRepository.save(user);
-        } else {
-            throw new EntityNotFoundException(user.getId(), User.class);
-        }
+        findById(user.getId());
+        user.setChanged(LocalDateTime.now());
+        return userRepository.save(user);
     }
 
     @Override
@@ -65,7 +62,7 @@ public class UserServiceImpl implements UserService {
     @Override
     public void softDelete(Long id) {
         User user = findById(id);
-        if (user.getDeleted() != null) {
+        if (user.getDeleted() == null) {
             user.setDeleted(LocalDateTime.now());
             userRepository.save(user);
         }

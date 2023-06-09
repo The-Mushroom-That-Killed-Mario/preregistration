@@ -5,12 +5,12 @@ import io.swagger.v3.oas.annotations.media.Content;
 import io.swagger.v3.oas.annotations.media.Schema;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import lombok.RequiredArgsConstructor;
-import org.mushroom.controller.mapper.UserMapper;
-import org.mushroom.controller.requests.create.UserCreateRequest;
-import org.mushroom.controller.requests.update.UserUpdateRequest;
+import org.mushroom.controller.mapper.TerminalMapper;
+import org.mushroom.controller.requests.create.TerminalCreateRequest;
+import org.mushroom.controller.requests.update.TerminalUpdateRequest;
 import org.mushroom.exception.ErrorMessage;
-import org.mushroom.model.User;
-import org.mushroom.service.UserService;
+import org.mushroom.model.Terminal;
+import org.mushroom.service.TerminalService;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -26,129 +26,129 @@ import javax.validation.Valid;
 import java.util.List;
 
 @RestController
-@RequestMapping("/users")
+@RequestMapping("/terminals")
 @RequiredArgsConstructor
-public class UserController extends BaseController {
+public class TerminalController extends BaseController {
 
-    private final UserMapper userMapper;
+    private final TerminalMapper terminalMapper;
 
-    private final UserService userService;
+    private final TerminalService terminalService;
 
     @Operation(
-            summary = "Find User by Id",
-            description = "Find User by Id Search",
+            summary = "Find Terminal by Id",
+            description = "Find Terminal by Id Search",
             responses = {
                     @ApiResponse(
                             responseCode = "200",
-                            description = "Successfully loaded User",
-                            content = @Content(mediaType = "application/json", schema = @Schema(implementation = User.class))
+                            description = "Successfully loaded Terminal",
+                            content = @Content(mediaType = "application/json", schema = @Schema(implementation = Terminal.class))
                     ),
                     @ApiResponse(
                             responseCode = "400",
-                            description = "Bad User request, Validation error",
+                            description = "Bad Terminal request, Validation error",
                             content = @Content(mediaType = "application/json", schema = @Schema(implementation = ErrorMessage.class))
                     ),
                     @ApiResponse(
                             responseCode = "404",
-                            description = "User not found",
+                            description = "Terminal not found",
                             content = @Content(mediaType = "application/json", schema = @Schema(implementation = ErrorMessage.class))
                     )
             }
 
     )
     @GetMapping("/{id}")
-    public ResponseEntity<User> getUserById(@PathVariable Long id) {
-        User user = userService.findById(id);
-        return ResponseEntity.ok().body(user);
+    public ResponseEntity<Terminal> getTerminalById(@PathVariable Long id) {
+        Terminal terminal = terminalService.findById(id);
+        return ResponseEntity.ok().body(terminal);
     }
 
     @Operation(
-            summary = "Users Find All Search",
-            description = "Find All Users without limitations",
+            summary = "Terminals Find All Search",
+            description = "Find All Terminals without limitations",
             responses = {
                     @ApiResponse(
                             responseCode = "200",
-                            description = "Successfully loaded Users",
-                            content = @Content(mediaType = "application/json", schema = @Schema(implementation = User.class))
+                            description = "Successfully loaded Terminals",
+                            content = @Content(mediaType = "application/json", schema = @Schema(implementation = Terminal.class))
                     )
             }
     )
     @GetMapping
-    public ResponseEntity<List<User>> getAllUsers() {
-        return ResponseEntity.ok().body(userService.findAll());
+    public ResponseEntity<List<Terminal>> getAllTerminals() {
+        return ResponseEntity.ok().body(terminalService.findAll());
     }
 
     @Operation(
-            summary = "Create User",
-            description = "Create User Entity",
+            summary = "Create Terminal",
+            description = "Create Terminal Entity",
             responses = {
                     @ApiResponse(
                             responseCode = "200",
-                            description = "Successfully created User",
-                            content = @Content(mediaType = "application/json", schema = @Schema(implementation = User.class))
+                            description = "Successfully created Terminal",
+                            content = @Content(mediaType = "application/json", schema = @Schema(implementation = Terminal.class))
                     ),
                     @ApiResponse(
                             responseCode = "400",
-                            description = "Bad User request, Validation error",
+                            description = "Bad Terminal request, Validation error",
                             content = @Content(mediaType = "application/json", schema = @Schema(implementation = ErrorMessage.class))
                     ),
             }
     )
     @PostMapping
-    public ResponseEntity<User> createUser(@Valid @RequestBody UserCreateRequest request, BindingResult result) {
+    public ResponseEntity<Terminal> createTerminal(@Valid @RequestBody TerminalCreateRequest request, BindingResult result) {
         super.checkBindingResult(result);
 
-        User user = userMapper.toEntity(request);
-        user = userService.create(user);
-        return ResponseEntity.ok().body(user);
+        Terminal terminal = terminalMapper.toEntity(request);
+        terminal = terminalService.create(terminal);
+        return ResponseEntity.ok().body(terminal);
     }
 
     @Operation(
-            summary = "Update User",
-            description = "Update User entity",
+            summary = "Update Terminal",
+            description = "Update Terminal entity",
             responses = {
                     @ApiResponse(
                             responseCode = "200",
-                            description = "Successfully created User",
-                            content = @Content(mediaType = "application/json", schema = @Schema(implementation = User.class))
+                            description = "Successfully created Terminal",
+                            content = @Content(mediaType = "application/json", schema = @Schema(implementation = Terminal.class))
                     ),
                     @ApiResponse(
                             responseCode = "400",
-                            description = "Bad User request, Validation error",
+                            description = "Bad Terminal request, Validation error",
                             content = @Content(mediaType = "application/json", schema = @Schema(implementation = ErrorMessage.class))
                     ),
                     @ApiResponse(
                             responseCode = "404",
-                            description = "User not found",
+                            description = "Terminal not found",
                             content = @Content(mediaType = "application/json", schema = @Schema(implementation = ErrorMessage.class))
                     )
             }
     )
     @PutMapping
-    public ResponseEntity<User> updateUser(@Valid @RequestBody UserUpdateRequest request, BindingResult result) {
+    public ResponseEntity<Terminal> updateTerminal(@Valid @RequestBody TerminalUpdateRequest request, BindingResult result) {
         super.checkBindingResult(result);
-        User user = userMapper.toEntity(request);
-        user = userService.update(user);
-        return ResponseEntity.ok().body(user);
+        Terminal terminal = terminalMapper.toEntity(request);
+        terminal = terminalService.update(terminal);
+        return ResponseEntity.ok().body(terminal);
     }
 
     @Operation(
-            summary = "Delete User",
-            description = "Delete User entity by Id",
+            summary = "Delete Terminal",
+            description = "Delete Terminal entity by Id",
             responses = {
                     @ApiResponse(
                             responseCode = "204",
-                            description = "Successfully deleted User"),
+                            description = "Successfully deleted Terminal"),
                     @ApiResponse(
                             responseCode = "404",
-                            description = "User not found",
+                            description = "Terminal not found",
                             content = @Content(mediaType = "application/json", schema = @Schema(implementation = ErrorMessage.class))
                     )
             }
     )
     @DeleteMapping("/{id}")
-    public ResponseEntity<Void> deleteUser(@PathVariable Long id) {
-        userService.softDelete(id);
+    public ResponseEntity<Void> deleteTerminal(@PathVariable Long id) {
+        terminalService.softDelete(id);
         return ResponseEntity.noContent().build();
     }
 }

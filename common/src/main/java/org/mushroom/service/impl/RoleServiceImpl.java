@@ -26,7 +26,7 @@ public class RoleServiceImpl implements RoleService {
     @Override
     public Role findById(Long id) {
         Role role =  roleRepository.findById(id).orElseThrow(() -> new EntityNotFoundException(id, Role.class));
-        if (role.isActual()){
+        if (!role.isActual()){
             throw new DeletedEntityException(id, Role.class);
         }
         return role;
@@ -35,24 +35,23 @@ public class RoleServiceImpl implements RoleService {
     @Override
     public List<Role> findAll() {
         List<Role> roles = roleRepository.findAll();
-        roles.removeIf(Role::isActual);
+        roles.removeIf(x->!x.isActual());
         return roles;
     }
 
 
     @Override
     public Role create(Role role) {
+        role.setCreated(LocalDateTime.now());
+        role.setChanged(LocalDateTime.now());
         return roleRepository.save(role);
     }
 
     @Override
     public Role update(Role role) {
-        if (roleRepository.existsById(role.getId())) {
-            role.setChanged(LocalDateTime.now());
-            return roleRepository.save(role);
-        } else {
-            throw new EntityNotFoundException(role.getId(), Role.class);
-        }
+        findById(role.getId());
+        role.setChanged(LocalDateTime.now());
+        return roleRepository.save(role);
     }
 
     @Override

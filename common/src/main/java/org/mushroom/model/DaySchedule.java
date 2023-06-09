@@ -56,10 +56,10 @@ public class DaySchedule {
     private DayOfWeek dayOfWeek;
 
     @Column(name = "created")
-    private LocalDateTime created;
+    private LocalDateTime created = LocalDateTime.now();
 
-    @Column(name = "changed")
-    private LocalDateTime changed;
+@Column(name = "changed")
+    private LocalDateTime changed = LocalDateTime.now();
 
     @Column(name = "is_actual")
     private boolean isActual;

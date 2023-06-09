@@ -24,7 +24,7 @@ public class DayScheduleServiceImpl implements DayScheduleService {
     @Override
     public DaySchedule findById(Long id) {
         DaySchedule daySchedule =  dayScheduleRepository.findById(id).orElseThrow(() -> new EntityNotFoundException(id, DaySchedule.class));
-        if (daySchedule.isActual()){
+        if (!daySchedule.isActual()){
             throw new DeletedEntityException(id, DaySchedule.class);
         }
         return daySchedule;
@@ -33,24 +33,23 @@ public class DayScheduleServiceImpl implements DayScheduleService {
     @Override
     public List<DaySchedule> findAll() {
         List<DaySchedule> daySchedules = dayScheduleRepository.findAll();
-        daySchedules.removeIf(DaySchedule::isActual);
+        daySchedules.removeIf(x->!x.isActual());
         return daySchedules;
     }
 
 
     @Override
     public DaySchedule create(DaySchedule daySchedule) {
+        daySchedule.setCreated(LocalDateTime.now());
+        daySchedule.setChanged(LocalDateTime.now());
         return dayScheduleRepository.save(daySchedule);
     }
 
     @Override
     public DaySchedule update(DaySchedule daySchedule) {
-        if (dayScheduleRepository.existsById(daySchedule.getId())) {
+            findById(daySchedule.getId());
             daySchedule.setChanged(LocalDateTime.now());
             return dayScheduleRepository.save(daySchedule);
-        } else {
-            throw new EntityNotFoundException(daySchedule.getId(), DaySchedule.class);
-        }
     }
 
     @Override

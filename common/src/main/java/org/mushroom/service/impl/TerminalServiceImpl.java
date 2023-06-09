@@ -4,11 +4,8 @@ import lombok.RequiredArgsConstructor;
 import org.mushroom.exception.DeletedEntityException;
 import org.mushroom.exception.EntityNotFoundException;
 import org.mushroom.model.Terminal;
-import org.mushroom.model.Terminal;
 import org.mushroom.repository.TerminalRepository;
 import org.mushroom.service.TerminalService;
-import org.springframework.data.domain.Page;
-import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
@@ -36,24 +33,24 @@ public class TerminalServiceImpl implements TerminalService {
     @Override
     public List<Terminal> findAll() {
         List<Terminal> terminals = terminalRepository.findAll();
-        terminals.removeIf(x->x.getDeleted()==null);
+        terminals.removeIf(x->x.getDeleted()!=null);
         return terminals;
     }
 
 
     @Override
     public Terminal create(Terminal terminal) {
+        terminal.setCreated(LocalDateTime.now());
+        terminal.setChanged(LocalDateTime.now());
         return terminalRepository.save(terminal);
     }
 
     @Override
     public Terminal update(Terminal terminal) {
-        if (terminalRepository.existsById(terminal.getId())) {
-            terminal.setChanged(LocalDateTime.now());
-            return terminalRepository.save(terminal);
-        } else {
-            throw new EntityNotFoundException(terminal.getId(), Terminal.class);
-        }
+        findById(terminal.getId());
+        terminal.setChanged(LocalDateTime.now());
+        return terminalRepository.save(terminal);
+
     }
 
     @Override
@@ -64,7 +61,7 @@ public class TerminalServiceImpl implements TerminalService {
     @Override
     public void softDelete(Long id) {
         Terminal terminal = findById(id);
-        if (terminal.getDeleted() != null) {
+        if (terminal.getDeleted() == null) {
             terminal.setDeleted(LocalDateTime.now());
             terminalRepository.save(terminal);
         }

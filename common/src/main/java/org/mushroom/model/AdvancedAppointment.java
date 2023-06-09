@@ -33,10 +33,10 @@ import java.time.LocalTime;
 @ToString(exclude = {
         "service", "user", "terminal"
 })
-
 @Entity
 @Table(name = "advanced_appointment")
 public class AdvancedAppointment {
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
@@ -64,10 +64,10 @@ public class AdvancedAppointment {
     private LocalTime timeTo;
 
     @Column(name = "created")
-    private LocalDateTime created;
+    private LocalDateTime created = LocalDateTime.now();
 
     @Column(name = "changed")
-    private LocalDateTime changed;
+    private LocalDateTime changed = LocalDateTime.now();
 
     @Column(name = "is_actual")
     private boolean isActual;

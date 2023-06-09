@@ -53,6 +53,7 @@ public class TerminalServices {
             joinColumns = @JoinColumn(name = "terminal_services_id"),
             inverseJoinColumns = @JoinColumn(name = "week_day_schedule_id")
     )
+
     private Set<DaySchedule> scheduleDays = Collections.emptySet();
 
     @OneToMany(mappedBy = "terminalService", fetch = FetchType.EAGER)
@@ -67,9 +68,11 @@ public class TerminalServices {
     private Terminal terminal;
 
     @Column(name = "created")
-    private LocalDateTime created;
+    private LocalDateTime created = LocalDateTime.now();
+
     @Column(name = "changed")
-    private LocalDateTime changed;
+    private LocalDateTime changed = LocalDateTime.now();
+
     @Column(name = "is_actual")
     private boolean isActual;
 

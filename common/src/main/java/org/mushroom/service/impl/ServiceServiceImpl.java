@@ -4,11 +4,8 @@ import lombok.RequiredArgsConstructor;
 import org.mushroom.exception.DeletedEntityException;
 import org.mushroom.exception.EntityNotFoundException;
 import org.mushroom.model.Service;
-import org.mushroom.model.Service;
 import org.mushroom.repository.ServiceRepository;
 import org.mushroom.service.ServiceService;
-import org.springframework.data.domain.Page;
-import org.springframework.data.domain.Pageable;
 
 import java.time.LocalDateTime;
 import java.util.List;
@@ -35,24 +32,23 @@ public class ServiceServiceImpl implements ServiceService {
     @Override
     public List<Service> findAll() {
         List<Service> services = serviceRepository.findAll();
-        services.removeIf(x->x.getDeleted()==null);
+        services.removeIf(x->x.getDeleted()!=null);
         return services;
     }
 
 
     @Override
     public Service create(Service service) {
+        service.setCreated(LocalDateTime.now());
+        service.setChanged(LocalDateTime.now());
         return serviceRepository.save(service);
     }
 
     @Override
     public Service update(Service service) {
-        if (serviceRepository.existsById(service.getId())) {
-            service.setChanged(LocalDateTime.now());
-            return serviceRepository.save(service);
-        } else {
-            throw new EntityNotFoundException(service.getId(), Service.class);
-        }
+        findById(service.getId());
+        service.setChanged(LocalDateTime.now());
+        return serviceRepository.save(service);
     }
 
     @Override
@@ -63,7 +59,7 @@ public class ServiceServiceImpl implements ServiceService {
     @Override
     public void softDelete(Long id) {
         Service service = findById(id);
-        if (service.getDeleted() != null) {
+        if (service.getDeleted() == null) {
             service.setDeleted(LocalDateTime.now());
             serviceRepository.save(service);
         }

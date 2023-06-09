@@ -35,6 +35,11 @@ public class UserCreateRequest {
     @NotNull
     private String login;
 
+    @Schema(requiredMode = Schema.RequiredMode.REQUIRED, example = "password", type = "string", description = "password")
+    @Size(min = 1, max = 50)
+    @NotNull
+    private String password;
+
     @Schema(requiredMode = Schema.RequiredMode.NOT_REQUIRED, example = "+375123456789", type = "string", description = "phoneNumber")
     @Pattern(regexp = "^\\+375\\d{9}$", message = "Incorrect number")
     private String phoneNumber;
@@ -43,4 +48,5 @@ public class UserCreateRequest {
     @Size(max = 50)
     @NotNull
     private String email;
+
 }

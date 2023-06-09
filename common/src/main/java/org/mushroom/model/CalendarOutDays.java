@@ -21,23 +21,25 @@ import java.time.LocalDateTime;
 @Builder
 @Setter
 @Getter
-
 @Entity
 @Table(name = "calendar_out_days")
 public class CalendarOutDays {
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
     @Column(name = "date")
     private LocalDate date;
+
     @Column(name = "created")
-    private LocalDateTime created;
+    private LocalDateTime created = LocalDateTime.now();
+
     @Column(name = "changed")
-    private LocalDateTime changed;
+    private LocalDateTime changed = LocalDateTime.now();
+
     @Column(name = "is_actual")
     private boolean isActual;
-
 
     @ManyToOne
     @JoinColumn(name = "terminal_services_id")

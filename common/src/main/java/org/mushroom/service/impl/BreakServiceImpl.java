@@ -24,8 +24,8 @@ public class BreakServiceImpl implements BreakService {
 
     @Override
     public Break findById(Long id) {
-        Break timeBreak =  timeBreakRepository.findById(id).orElseThrow(() -> new EntityNotFoundException(id, Break.class));
-        if (timeBreak.isActual()){
+        Break timeBreak = timeBreakRepository.findById(id).orElseThrow(() -> new EntityNotFoundException(id, Break.class));
+        if (!timeBreak.isActual()) {
             throw new DeletedEntityException(id, Break.class);
         }
         return timeBreak;
@@ -34,24 +34,24 @@ public class BreakServiceImpl implements BreakService {
     @Override
     public List<Break> findAll() {
         List<Break> timeBreaks = timeBreakRepository.findAll();
-        timeBreaks.removeIf(Break::isActual);
+        timeBreaks.removeIf(x -> !x.isActual());
         return timeBreaks;
     }
 
 
     @Override
     public Break create(Break timeBreak) {
+        timeBreak.setCreated(LocalDateTime.now());
+        timeBreak.setChanged(LocalDateTime.now());
         return timeBreakRepository.save(timeBreak);
     }
 
     @Override
     public Break update(Break timeBreak) {
-        if (timeBreakRepository.existsById(timeBreak.getId())) {
-            timeBreak.setChanged(LocalDateTime.now());
-            return timeBreakRepository.save(timeBreak);
-        } else {
-            throw new EntityNotFoundException(timeBreak.getId(), Break.class);
-        }
+        findById(timeBreak.getId());
+        timeBreak.setChanged(LocalDateTime.now());
+        return timeBreakRepository.save(timeBreak);
+
     }
 
     @Override

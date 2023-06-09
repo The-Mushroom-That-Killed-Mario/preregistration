@@ -1,9 +1,6 @@
 package org.mushroom.model;
 
-import com.fasterxml.jackson.annotation.JsonBackReference;
-import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
-import com.fasterxml.jackson.annotation.JsonManagedReference;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.EqualsAndHashCode;
@@ -37,7 +34,7 @@ import java.util.Set;
 @ToString(exclude = {
         "users"
 })
-
+@JsonIgnoreProperties({"users"})
 @Entity
 @Table(name = "role")
 public class Role {
@@ -50,15 +47,15 @@ public class Role {
     private SystemRole name;
 
     @Column(name = "created")
-    private LocalDateTime created;
+    private LocalDateTime created = LocalDateTime.now();
+
     @Column(name = "changed")
-    private LocalDateTime changed;
+    private LocalDateTime changed = LocalDateTime.now();
+
     @Column(name = "is_actual")
     private boolean isActual;
 
-
     @ManyToMany(mappedBy = "roles", fetch = FetchType.EAGER)
-    @JsonBackReference
     private Set<User> users = Collections.emptySet();
 
 }
