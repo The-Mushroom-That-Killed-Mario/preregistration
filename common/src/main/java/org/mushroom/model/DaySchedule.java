@@ -1,6 +1,9 @@
 package org.mushroom.model;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import com.fasterxml.jackson.databind.annotation.JsonSerialize;
+import com.fasterxml.jackson.datatype.jsr310.ser.LocalTimeSerializer;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.EqualsAndHashCode;
@@ -47,7 +50,9 @@ public class DaySchedule {
     private Long id;
 
     @Column(name = "time_begin")
+//    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "HH:mm:ss")
     private LocalTime timeBegin;
+
     @Column(name = "time_end")
     private LocalTime timeEnd;
 

@@ -37,7 +37,7 @@ import java.util.Set;
 @ToString(exclude = {
         "roles"
 })
-@JsonIgnoreProperties({"advancedAppointment"})
+@JsonIgnoreProperties({"advancedAppointment","roles"})
 @Entity
 @Table(name = "\"user\"")
 public class User {

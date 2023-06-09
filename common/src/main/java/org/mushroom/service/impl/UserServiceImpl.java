@@ -49,7 +49,7 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public User update(User user) {
-        findById(user.getId());
+        user.setCreated(findById(user.getId()).getCreated());
         user.setChanged(LocalDateTime.now());
         return userRepository.save(user);
     }

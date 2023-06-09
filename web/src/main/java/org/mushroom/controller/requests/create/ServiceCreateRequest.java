@@ -19,12 +19,12 @@ import javax.validation.constraints.Size;
 @Schema(description = "Object with Service information")
 public class ServiceCreateRequest {
 
-    @Schema(requiredMode = Schema.RequiredMode.REQUIRED, example = "name", type = "string", description = "terminal name")
+    @Schema(requiredMode = Schema.RequiredMode.REQUIRED, example = "Приём платажей", type = "string", description = "service name")
     @Size(min = 1, max = 50)
     @NotNull
     private String name;
 
-    @Schema(requiredMode = Schema.RequiredMode.REQUIRED, example = "name", type = "integer", description = "service duration")
+    @Schema(requiredMode = Schema.RequiredMode.REQUIRED, example = "120", type = "integer", description = "service duration in seconds")
     @Positive
     @NotNull
     private Integer duration;

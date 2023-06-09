@@ -42,12 +42,13 @@ public class DayScheduleServiceImpl implements DayScheduleService {
     public DaySchedule create(DaySchedule daySchedule) {
         daySchedule.setCreated(LocalDateTime.now());
         daySchedule.setChanged(LocalDateTime.now());
+        daySchedule.setActual(true);
         return dayScheduleRepository.save(daySchedule);
     }
 
     @Override
     public DaySchedule update(DaySchedule daySchedule) {
-            findById(daySchedule.getId());
+            daySchedule.setCreated(findById(daySchedule.getId()).getCreated());
             daySchedule.setChanged(LocalDateTime.now());
             return dayScheduleRepository.save(daySchedule);
     }

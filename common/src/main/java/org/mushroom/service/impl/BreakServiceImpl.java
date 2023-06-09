@@ -43,12 +43,13 @@ public class BreakServiceImpl implements BreakService {
     public Break create(Break timeBreak) {
         timeBreak.setCreated(LocalDateTime.now());
         timeBreak.setChanged(LocalDateTime.now());
+        timeBreak.setActual(true);
         return timeBreakRepository.save(timeBreak);
     }
 
     @Override
     public Break update(Break timeBreak) {
-        findById(timeBreak.getId());
+        timeBreak.setChanged(findById(timeBreak.getId()).getCreated());
         timeBreak.setChanged(LocalDateTime.now());
         return timeBreakRepository.save(timeBreak);
 

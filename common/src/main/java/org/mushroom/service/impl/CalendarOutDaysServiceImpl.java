@@ -43,12 +43,13 @@ public class CalendarOutDaysServiceImpl implements CalendarOutDaysService {
     public CalendarOutDays create(CalendarOutDays calendarOutDays) {
         calendarOutDays.setCreated(LocalDateTime.now());
         calendarOutDays.setChanged(LocalDateTime.now());
+        calendarOutDays.setActual(true);
         return calendarOutDaysRepository.save(calendarOutDays);
     }
 
     @Override
     public CalendarOutDays update(CalendarOutDays calendarOutDays) {
-            findById(calendarOutDays.getId());
+            calendarOutDays.setCreated(findById(calendarOutDays.getId()).getCreated());
             calendarOutDays.setChanged(LocalDateTime.now());
             return calendarOutDaysRepository.save(calendarOutDays);
     }

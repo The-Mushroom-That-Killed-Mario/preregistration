@@ -44,12 +44,13 @@ public class RoleServiceImpl implements RoleService {
     public Role create(Role role) {
         role.setCreated(LocalDateTime.now());
         role.setChanged(LocalDateTime.now());
+        role.setActual(true);
         return roleRepository.save(role);
     }
 
     @Override
     public Role update(Role role) {
-        findById(role.getId());
+        role.setCreated(findById(role.getId()).getCreated());
         role.setChanged(LocalDateTime.now());
         return roleRepository.save(role);
     }

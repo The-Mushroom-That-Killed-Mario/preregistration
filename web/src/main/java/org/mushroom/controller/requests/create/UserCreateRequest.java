@@ -44,6 +44,7 @@ public class UserCreateRequest {
     @Pattern(regexp = "^\\+375\\d{9}$", message = "Incorrect number")
     private String phoneNumber;
 
+    @Schema(requiredMode = Schema.RequiredMode.REQUIRED, example = "email@mail.com", type = "string", description = "email")
     @Email
     @Size(max = 50)
     @NotNull

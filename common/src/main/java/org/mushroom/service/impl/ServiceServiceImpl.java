@@ -46,7 +46,7 @@ public class ServiceServiceImpl implements ServiceService {
 
     @Override
     public Service update(Service service) {
-        findById(service.getId());
+        service.setCreated(findById(service.getId()).getCreated());
         service.setChanged(LocalDateTime.now());
         return serviceRepository.save(service);
     }

@@ -47,7 +47,7 @@ public class TerminalServiceImpl implements TerminalService {
 
     @Override
     public Terminal update(Terminal terminal) {
-        findById(terminal.getId());
+        terminal.setCreated(findById(terminal.getId()).getCreated());
         terminal.setChanged(LocalDateTime.now());
         return terminalRepository.save(terminal);
 

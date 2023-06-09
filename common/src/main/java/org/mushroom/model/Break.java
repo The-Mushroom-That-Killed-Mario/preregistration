@@ -34,9 +34,9 @@ import java.util.Set;
 @ToString(exclude = {
         "scheduleDays"
 })
+@JsonIgnoreProperties({"scheduleDays"})
 @Entity
 @Table(name = "break")
-
 public class Break {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

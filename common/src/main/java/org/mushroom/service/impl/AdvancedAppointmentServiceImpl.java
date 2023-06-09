@@ -43,12 +43,13 @@ public class AdvancedAppointmentServiceImpl implements AdvancedAppointmentServic
     public AdvancedAppointment create(AdvancedAppointment advancedAppointment) {
         advancedAppointment.setCreated(LocalDateTime.now());
         advancedAppointment.setChanged(LocalDateTime.now());
+        advancedAppointment.setActual(true);
         return advancedAppointmentRepository.save(advancedAppointment);
     }
 
     @Override
     public AdvancedAppointment update(AdvancedAppointment advancedAppointment) {
-        findById(advancedAppointment.getId());
+        advancedAppointment.setCreated(findById(advancedAppointment.getId()).getCreated());
         advancedAppointment.setChanged(LocalDateTime.now());
         return advancedAppointmentRepository.save(advancedAppointment);
 
