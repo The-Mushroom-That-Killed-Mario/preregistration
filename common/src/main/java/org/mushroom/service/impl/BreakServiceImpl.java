@@ -6,17 +6,19 @@ import org.mushroom.exception.EntityNotFoundException;
 import org.mushroom.model.Break;
 import org.mushroom.repository.BreakRepository;
 import org.mushroom.service.BreakService;
+import org.mushroom.util.TimeDispatcher;
 import org.springframework.stereotype.Service;
 
-import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Optional;
 
 @RequiredArgsConstructor
 @Service
 public class BreakServiceImpl implements BreakService {
+
     private final BreakRepository timeBreakRepository;
 
+    private final TimeDispatcher timeDispatcher;
     @Override
     public Optional<Break> findOne(Long id) {
         return Optional.of(findById(id));
@@ -41,18 +43,16 @@ public class BreakServiceImpl implements BreakService {
 
     @Override
     public Break create(Break timeBreak) {
-        timeBreak.setCreated(LocalDateTime.now());
-        timeBreak.setChanged(LocalDateTime.now());
-        timeBreak.setActual(true);
+            timeBreak = checkRestore(timeBreak);
         return timeBreakRepository.save(timeBreak);
     }
 
     @Override
     public Break update(Break timeBreak) {
-        timeBreak.setChanged(findById(timeBreak.getId()).getCreated());
-        timeBreak.setChanged(LocalDateTime.now());
+        Break tempTimeBreak = findById(timeBreak.getId());
+        timeBreak.setCreated(tempTimeBreak.getCreated());
+        timeBreak.setScheduleDays(tempTimeBreak.getScheduleDays());
         return timeBreakRepository.save(timeBreak);
-
     }
 
     @Override
@@ -67,5 +67,15 @@ public class BreakServiceImpl implements BreakService {
             timeBreak.setActual(false);
             timeBreakRepository.save(timeBreak);
         }
+    }
+
+    private Break checkRestore(Break timeBreak) {
+        if (timeBreakRepository.existsByFromTimeAndToTime(timeBreak.getFromTime(), timeBreak.getToTime())) {
+            timeBreak = timeBreakRepository.findByFromTimeAndToTime(timeBreak.getFromTime(), timeBreak.getToTime());
+            timeBreak.setActual(true);
+            timeBreak.setChanged(timeDispatcher.getTime());
+            return timeBreak;
+        }
+        return timeBreak;
     }
 }

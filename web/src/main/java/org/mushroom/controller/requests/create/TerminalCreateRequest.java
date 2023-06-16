@@ -39,8 +39,11 @@ public class TerminalCreateRequest {
     @NotNull
     private String physicalAddress;
 
+    @Schema(requiredMode = Schema.RequiredMode.REQUIRED, example = "1234")
     @NotNull
     @Positive
     private short port;
+
+
 
 }

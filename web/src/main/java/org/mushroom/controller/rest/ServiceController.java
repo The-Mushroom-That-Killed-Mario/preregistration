@@ -1,10 +1,12 @@
 package org.mushroom.controller.rest;
 
 import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.media.ArraySchema;
 import io.swagger.v3.oas.annotations.media.Content;
 import io.swagger.v3.oas.annotations.media.Schema;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import lombok.RequiredArgsConstructor;
+import org.mushroom.controller.dto.BreakDTO;
 import org.mushroom.controller.mapper.ServiceMapper;
 import org.mushroom.controller.requests.create.ServiceCreateRequest;
 import org.mushroom.controller.requests.update.ServiceUpdateRequest;
@@ -69,7 +71,9 @@ public class ServiceController extends BaseController {
                     @ApiResponse(
                             responseCode = "200",
                             description = "Successfully loaded Services",
-                            content = @Content(mediaType = "application/json", schema = @Schema(implementation = Service.class))
+                            content = @Content(mediaType = "application/json",
+                                    array = @ArraySchema(
+                                            schema = @Schema(implementation = Service.class)))
                     )
             }
     )
@@ -109,7 +113,7 @@ public class ServiceController extends BaseController {
             responses = {
                     @ApiResponse(
                             responseCode = "200",
-                            description = "Successfully created Service",
+                            description = "Successfully updated Service",
                             content = @Content(mediaType = "application/json", schema = @Schema(implementation = Service.class))
                     ),
                     @ApiResponse(

@@ -28,7 +28,7 @@ import java.time.LocalDateTime;
 import java.time.LocalTime;
 import java.util.Collections;
 import java.util.Set;
-
+import java.time.DayOfWeek;
 
 @Builder
 @AllArgsConstructor
@@ -41,7 +41,7 @@ import java.util.Set;
 @ToString(exclude = {
         "breaks", "terminalServices"
 })
-
+@JsonIgnoreProperties({"terminalServices"})
 @Entity
 @Table(name = "week_day_schedule")
 public class DaySchedule {
@@ -50,7 +50,6 @@ public class DaySchedule {
     private Long id;
 
     @Column(name = "time_begin")
-//    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "HH:mm:ss")
     private LocalTime timeBegin;
 
     @Column(name = "time_end")
@@ -61,13 +60,16 @@ public class DaySchedule {
     private DayOfWeek dayOfWeek;
 
     @Column(name = "created")
+    @Builder.Default
     private LocalDateTime created = LocalDateTime.now();
 
-@Column(name = "changed")
+    @Column(name = "changed")
+    @Builder.Default
     private LocalDateTime changed = LocalDateTime.now();
 
     @Column(name = "is_actual")
-    private boolean isActual;
+    @Builder.Default
+    private boolean isActual = true;
 
     //Основная сторона связи
     @ManyToMany(fetch = FetchType.EAGER)
@@ -75,11 +77,12 @@ public class DaySchedule {
             joinColumns = @JoinColumn(name = "week_day_schedule_id"),
             inverseJoinColumns = @JoinColumn(name = "break_id")
     )
-    @JsonIgnoreProperties("scheduleDays")
+    @Builder.Default
     private Set<Break> breaks = Collections.emptySet();
 
     //Зависимая сторона связи
     @ManyToMany(mappedBy = "scheduleDays", fetch = FetchType.EAGER)
+    @Builder.Default
     private Set<TerminalServices> terminalServices = Collections.emptySet();
 
 }

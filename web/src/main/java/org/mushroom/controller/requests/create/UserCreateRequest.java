@@ -5,12 +5,15 @@ import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 import lombok.Setter;
+import org.mushroom.model.Role;
 import org.springframework.validation.annotation.Validated;
 
 import javax.validation.constraints.Email;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Pattern;
 import javax.validation.constraints.Size;
+import java.util.Collections;
+import java.util.Set;
 
 @Setter
 @Getter
@@ -20,22 +23,22 @@ import javax.validation.constraints.Size;
 @Schema(description = "Object with user information")
 public class UserCreateRequest {
 
-    @Schema(requiredMode = Schema.RequiredMode.REQUIRED, example = "name", type = "string", description = "user name")
+    @Schema(requiredMode = Schema.RequiredMode.REQUIRED, example = "Andrey", type = "string", description = "user name")
     @Size(min = 1, max = 50)
     @NotNull
     private String name;
 
-    @Schema(requiredMode = Schema.RequiredMode.REQUIRED, example = "surname", type = "string", description = "surname")
+    @Schema(requiredMode = Schema.RequiredMode.REQUIRED, example = "Dziadziulia", type = "string", description = "surname")
     @Size(min = 1, max = 50)
     @NotNull
     private String surname;
 
-    @Schema(requiredMode = Schema.RequiredMode.REQUIRED, example = "login", type = "string", description = "login")
+    @Schema(requiredMode = Schema.RequiredMode.REQUIRED, example = "AnrejLog", type = "string", description = "login")
     @Size(min = 1, max = 50)
     @NotNull
     private String login;
 
-    @Schema(requiredMode = Schema.RequiredMode.REQUIRED, example = "password", type = "string", description = "password")
+    @Schema(requiredMode = Schema.RequiredMode.REQUIRED, example = "AnrejPass", type = "string", description = "password")
     @Size(min = 1, max = 50)
     @NotNull
     private String password;

@@ -1,5 +1,6 @@
 package org.mushroom.controller.mapper;
 
+import lombok.Data;
 import org.mapstruct.Mapper;
 import org.mushroom.controller.dto.DayScheduleDTO;
 import org.mushroom.controller.requests.create.DayScheduleCreateRequest;

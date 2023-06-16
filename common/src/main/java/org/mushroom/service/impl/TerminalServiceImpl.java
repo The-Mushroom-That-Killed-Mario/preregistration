@@ -6,6 +6,7 @@ import org.mushroom.exception.EntityNotFoundException;
 import org.mushroom.model.Terminal;
 import org.mushroom.repository.TerminalRepository;
 import org.mushroom.service.TerminalService;
+import org.mushroom.util.TimeDispatcher;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
@@ -15,7 +16,8 @@ import java.util.Optional;
 @Service
 public class TerminalServiceImpl implements TerminalService {
     private final TerminalRepository terminalRepository;
-
+    
+    private final TimeDispatcher timeDispatcher;
     @Override
     public Optional<Terminal> findOne(Long id) {
         return Optional.of(findById(id));
@@ -40,17 +42,14 @@ public class TerminalServiceImpl implements TerminalService {
 
     @Override
     public Terminal create(Terminal terminal) {
-        terminal.setCreated(LocalDateTime.now());
-        terminal.setChanged(LocalDateTime.now());
         return terminalRepository.save(terminal);
     }
 
     @Override
     public Terminal update(Terminal terminal) {
-        terminal.setCreated(findById(terminal.getId()).getCreated());
-        terminal.setChanged(LocalDateTime.now());
+        Terminal tempTerminal = findById(terminal.getId());
+        terminal.setCreated(tempTerminal.getCreated());
         return terminalRepository.save(terminal);
-
     }
 
     @Override
@@ -62,8 +61,9 @@ public class TerminalServiceImpl implements TerminalService {
     public void softDelete(Long id) {
         Terminal terminal = findById(id);
         if (terminal.getDeleted() == null) {
-            terminal.setDeleted(LocalDateTime.now());
+            terminal.setDeleted(timeDispatcher.getTime());
             terminalRepository.save(terminal);
         }
     }
+
 }

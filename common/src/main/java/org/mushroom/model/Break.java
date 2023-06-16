@@ -1,5 +1,6 @@
 package org.mushroom.model;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -44,17 +45,24 @@ public class Break {
 
     @Column(name = "from_time")
     private LocalTime fromTime;
+
     @Column(name = "to_time")
     private LocalTime toTime;
-    @Column(name = "created")
-    private LocalDateTime created = LocalDateTime.now();
-    @Column(name = "changed")
-    private LocalDateTime changed = LocalDateTime.now();
-    @Column(name = "is_actual")
-    private boolean isActual;
 
-    //зависимая сторона связи
+    @Column(name = "created")
+    @Builder.Default
+    private LocalDateTime created = LocalDateTime.now();
+
+    @Column(name = "changed")
+    @Builder.Default
+    private LocalDateTime changed = LocalDateTime.now();
+
+    @Column(name = "is_actual")
+    @Builder.Default
+    private boolean isActual = true;
+
     @ManyToMany(mappedBy = "breaks", cascade = CascadeType.ALL, fetch = FetchType.EAGER)
     @JsonIgnoreProperties("breaks")
+    @Builder.Default
     private Set<DaySchedule> scheduleDays = Collections.emptySet();
 }

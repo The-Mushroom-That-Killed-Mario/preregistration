@@ -1,10 +1,13 @@
 package org.mushroom.controller.rest;
 
 import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.media.ArraySchema;
 import io.swagger.v3.oas.annotations.media.Content;
 import io.swagger.v3.oas.annotations.media.Schema;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import lombok.RequiredArgsConstructor;
+import org.mushroom.controller.dto.BreakDTO;
+import org.mushroom.controller.dto.UserDTO;
 import org.mushroom.controller.mapper.BreakMapper;
 import org.mushroom.controller.requests.create.BreakCreateRequest;
 import org.mushroom.controller.requests.update.BreakUpdateRequest;
@@ -24,6 +27,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import javax.validation.Valid;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @RestController
 @RequestMapping("/timeBreaks")
@@ -41,7 +45,7 @@ public class BreakController extends BaseController {
                     @ApiResponse(
                             responseCode = "200",
                             description = "Successfully loaded Break",
-                            content = @Content(mediaType = "application/json", schema = @Schema(implementation = Break.class))
+                            content = @Content(mediaType = "application/json", schema = @Schema(implementation = BreakDTO.class))
                     ),
                     @ApiResponse(
                             responseCode = "400",
@@ -57,9 +61,9 @@ public class BreakController extends BaseController {
 
     )
     @GetMapping("/{id}")
-    public ResponseEntity<Break> getBreakById(@PathVariable Long id) {
+    public ResponseEntity<BreakDTO> getBreakById(@PathVariable Long id) {
         Break timeBreak = timeBreakService.findById(id);
-        return ResponseEntity.ok().body(timeBreak);
+        return ResponseEntity.ok().body(timeBreakMapper.toDto(timeBreak));
     }
 
     @Operation(
@@ -68,14 +72,18 @@ public class BreakController extends BaseController {
             responses = {
                     @ApiResponse(
                             responseCode = "200",
-                            description = "Successfully loaded Breaks",
-                            content = @Content(mediaType = "application/json", schema = @Schema(implementation = Break.class))
+                            description = "Successfully loaded breaks",
+                            content = @Content(mediaType = "application/json",
+                                    array = @ArraySchema(
+                                            schema = @Schema(implementation = BreakDTO.class)))
                     )
             }
     )
     @GetMapping
-    public ResponseEntity<List<Break>> getAllBreaks() {
-        return ResponseEntity.ok().body(timeBreakService.findAll());
+    public ResponseEntity<List<BreakDTO>> getAllBreaks() {
+        return ResponseEntity.ok().body(
+                timeBreakService.findAll().stream().map(timeBreakMapper::toDto).collect(Collectors.toList()));
+
     }
 
     @Operation(
@@ -85,7 +93,7 @@ public class BreakController extends BaseController {
                     @ApiResponse(
                             responseCode = "200",
                             description = "Successfully created Break",
-                            content = @Content(mediaType = "application/json", schema = @Schema(implementation = Break.class))
+                            content = @Content(mediaType = "application/json", schema = @Schema(implementation = BreakDTO.class))
                     ),
                     @ApiResponse(
                             responseCode = "400",
@@ -95,12 +103,12 @@ public class BreakController extends BaseController {
             }
     )
     @PostMapping
-    public ResponseEntity<Break> createBreak(@Valid @RequestBody BreakCreateRequest request, BindingResult result) {
+    public ResponseEntity<BreakDTO> createBreak(@Valid @RequestBody BreakCreateRequest request, BindingResult result) {
         super.checkBindingResult(result);
 
         Break timeBreak = timeBreakMapper.toEntity(request);
         timeBreak = timeBreakService.create(timeBreak);
-        return ResponseEntity.ok().body(timeBreak);
+        return ResponseEntity.ok().body(timeBreakMapper.toDto(timeBreak));
     }
 
     @Operation(
@@ -109,27 +117,27 @@ public class BreakController extends BaseController {
             responses = {
                     @ApiResponse(
                             responseCode = "200",
-                            description = "Successfully created Break",
-                            content = @Content(mediaType = "application/json", schema = @Schema(implementation = Break.class))
+                            description = "Successfully updated Break",
+                            content = @Content(mediaType = "application/json", schema = @Schema(implementation = BreakDTO.class))
                     ),
                     @ApiResponse(
                             responseCode = "400",
-                            description = "Bad Break request, Validation error",
+                            description = "Bad BreakDTO request, Validation error",
                             content = @Content(mediaType = "application/json", schema = @Schema(implementation = ErrorMessage.class))
                     ),
                     @ApiResponse(
                             responseCode = "404",
-                            description = "Break not found",
+                            description = "BreakDTO not found",
                             content = @Content(mediaType = "application/json", schema = @Schema(implementation = ErrorMessage.class))
                     )
             }
     )
     @PutMapping
-    public ResponseEntity<Break> updateBreak(@Valid @RequestBody BreakUpdateRequest request, BindingResult result) {
+    public ResponseEntity<BreakDTO> updateBreak(@Valid @RequestBody BreakUpdateRequest request, BindingResult result) {
         super.checkBindingResult(result);
         Break timeBreak = timeBreakMapper.toEntity(request);
         timeBreak = timeBreakService.update(timeBreak);
-        return ResponseEntity.ok().body(timeBreak);
+        return ResponseEntity.ok().body(timeBreakMapper.toDto(timeBreak));
     }
 
     @Operation(

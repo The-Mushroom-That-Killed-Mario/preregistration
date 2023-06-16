@@ -3,12 +3,14 @@ package org.mushroom.service.impl;
 import lombok.RequiredArgsConstructor;
 import org.mushroom.exception.DeletedEntityException;
 import org.mushroom.exception.EntityNotFoundException;
+import org.mushroom.model.SystemRole;
 import org.mushroom.model.User;
+import org.mushroom.repository.RoleRepository;
 import org.mushroom.repository.UserRepository;
 import org.mushroom.service.UserService;
+import org.mushroom.util.TimeDispatcher;
 import org.springframework.stereotype.Service;
 
-import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Optional;
 
@@ -17,6 +19,10 @@ import java.util.Optional;
 public class UserServiceImpl implements UserService {
 
     private final UserRepository userRepository;
+
+    private final RoleRepository roleRepository;
+
+    private final TimeDispatcher timeDispatcher;
 
     @Override
     public Optional<User> findOne(Long id) {
@@ -42,15 +48,16 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public User create(User user) {
-        user.setCreated(LocalDateTime.now());
-        user.setChanged(LocalDateTime.now());
+        user.setRoles(roleRepository.findRolesByName(SystemRole.USER));
         return userRepository.save(user);
     }
 
     @Override
     public User update(User user) {
-        user.setCreated(findById(user.getId()).getCreated());
-        user.setChanged(LocalDateTime.now());
+        User tempUser = findById(user.getId());
+        user.setCreated(tempUser.getCreated());
+        user.setRoles(tempUser.getRoles());
+        user.setAdvancedAppointment(tempUser.getAdvancedAppointment());
         return userRepository.save(user);
     }
 
@@ -63,7 +70,7 @@ public class UserServiceImpl implements UserService {
     public void softDelete(Long id) {
         User user = findById(id);
         if (user.getDeleted() == null) {
-            user.setDeleted(LocalDateTime.now());
+            user.setDeleted(timeDispatcher.getTime());
             userRepository.save(user);
         }
     }

@@ -1,14 +1,15 @@
 package org.mushroom.controller.dto;
 
+import lombok.Data;
 import org.mushroom.model.TerminalServices;
 
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 
+@Data
 public class CalendarOutDaysDTO {
 
     private Long id;
-
 
     private LocalDate date;
 
@@ -18,6 +19,5 @@ public class CalendarOutDaysDTO {
 
     private boolean isActual;
 
-
-    private TerminalServices terminalService;
+//    private TerminalServicesDTO terminalService;
 }

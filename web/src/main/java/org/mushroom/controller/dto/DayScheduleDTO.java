@@ -1,20 +1,26 @@
 package org.mushroom.controller.dto;
 
+import io.swagger.v3.oas.annotations.media.Schema;
+import lombok.Data;
 import org.mushroom.model.Break;
-import org.mushroom.model.DayOfWeek;
 import org.mushroom.model.TerminalServices;
 
 import java.time.LocalDateTime;
 import java.time.LocalTime;
+import java.time.DayOfWeek;
 import java.util.Collections;
 import java.util.Set;
 
+@Data
 public class DayScheduleDTO {
+
         private Long id;
 
-        private LocalTime timeBegin;
+        @Schema(example = "09:00:00")
+        private String timeBegin;
 
-        private LocalTime timeEnd;
+        @Schema(example = "18:00:00")
+        private String timeEnd;
 
         private DayOfWeek dayOfWeek;
 
@@ -22,11 +28,6 @@ public class DayScheduleDTO {
 
         private LocalDateTime changed;
 
-        private boolean isActual;
-
-        private Set<Break> breaks = Collections.emptySet();
-
-        //��������� ������� �����
-        private Set<TerminalServices> terminalServices = Collections.emptySet();
+        private Set<BreakDTO> breaks;
 
 }

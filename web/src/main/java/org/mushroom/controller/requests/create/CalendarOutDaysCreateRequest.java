@@ -5,6 +5,7 @@ import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 import lombok.Setter;
+import org.mushroom.model.TerminalServices;
 import org.springframework.validation.annotation.Validated;
 
 import javax.validation.constraints.NotNull;
@@ -22,4 +23,7 @@ public class CalendarOutDaysCreateRequest {
     @NotNull
     private LocalDate date;
 
+//    @Schema(requiredMode = Schema.RequiredMode.REQUIRED, type = "TerminalServices", description = "terminalService")
+//    @NotNull
+//    private TerminalServices terminalService;
 }

@@ -1,6 +1,7 @@
 package org.mushroom.controller.rest;
 
 import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.media.ArraySchema;
 import io.swagger.v3.oas.annotations.media.Content;
 import io.swagger.v3.oas.annotations.media.Schema;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
@@ -9,6 +10,7 @@ import org.mushroom.controller.mapper.TerminalMapper;
 import org.mushroom.controller.requests.create.TerminalCreateRequest;
 import org.mushroom.controller.requests.update.TerminalUpdateRequest;
 import org.mushroom.exception.ErrorMessage;
+import org.mushroom.model.Service;
 import org.mushroom.model.Terminal;
 import org.mushroom.service.TerminalService;
 import org.springframework.http.ResponseEntity;
@@ -69,7 +71,9 @@ public class TerminalController extends BaseController {
                     @ApiResponse(
                             responseCode = "200",
                             description = "Successfully loaded Terminals",
-                            content = @Content(mediaType = "application/json", schema = @Schema(implementation = Terminal.class))
+                            content = @Content(mediaType = "application/json",
+                                    array = @ArraySchema(
+                                            schema = @Schema(implementation = Terminal.class)))
                     )
             }
     )
@@ -109,7 +113,7 @@ public class TerminalController extends BaseController {
             responses = {
                     @ApiResponse(
                             responseCode = "200",
-                            description = "Successfully created Terminal",
+                            description = "Successfully updated Terminal",
                             content = @Content(mediaType = "application/json", schema = @Schema(implementation = Terminal.class))
                     ),
                     @ApiResponse(

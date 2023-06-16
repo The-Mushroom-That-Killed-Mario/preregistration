@@ -18,8 +18,8 @@ public class SwaggerConfig {
     private Info apiInfo() {
         return new Info()
                 .contact(contact())
-                .title("Students DEMO Project")
-                .description("All themes from JD2 course")
+                .title("Preregistration Project")
+                .description("Pre-registration system for electronic queue services")
                 .version("1.0")
                 .license(apiLicence());
     }

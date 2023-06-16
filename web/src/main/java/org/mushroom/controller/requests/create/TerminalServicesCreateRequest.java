@@ -5,13 +5,8 @@ import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 import lombok.Setter;
-import org.mushroom.model.CalendarOutDays;
-import org.mushroom.model.DaySchedule;
-import org.mushroom.model.Service;
-import org.mushroom.model.Terminal;
 import org.springframework.validation.annotation.Validated;
 
-import java.util.Collections;
 import java.util.Set;
 
 @Setter
@@ -22,12 +17,12 @@ import java.util.Set;
 @Schema(description = "Object with TerminalServices information")
 public class TerminalServicesCreateRequest {
 
-    private Set<DaySchedule> scheduleDays = Collections.emptySet();
+    private Set<Long> scheduleDaysIds;
 
-    private Set<CalendarOutDays> outDays;
+    private Long serviceId;
 
-    private Service service;
+    private Long terminalId;
 
-    private Terminal terminal;
+    //    private Set<LocalDate> outDays;
 
 }

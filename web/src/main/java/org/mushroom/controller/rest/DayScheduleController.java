@@ -6,13 +6,13 @@ import io.swagger.v3.oas.annotations.media.Content;
 import io.swagger.v3.oas.annotations.media.Schema;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import lombok.RequiredArgsConstructor;
-import org.mushroom.controller.dto.UserDTO;
-import org.mushroom.controller.mapper.UserMapper;
-import org.mushroom.controller.requests.create.UserCreateRequest;
-import org.mushroom.controller.requests.update.UserUpdateRequest;
+import org.mushroom.controller.dto.DayScheduleDTO;
+import org.mushroom.controller.mapper.DayScheduleMapper;
+import org.mushroom.controller.requests.create.DayScheduleCreateRequest;
+import org.mushroom.controller.requests.update.DayScheduleUpdateRequest;
 import org.mushroom.exception.ErrorMessage;
-import org.mushroom.model.User;
-import org.mushroom.service.UserService;
+import org.mushroom.model.DaySchedule;
+import org.mushroom.service.DayScheduleService;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -29,131 +29,133 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 @RestController
-@RequestMapping("/users")
+@RequestMapping("/day_Schedules")
 @RequiredArgsConstructor
-public class UserController extends BaseController {
+public class DayScheduleController extends BaseController {
 
-    private final UserMapper userMapper;
+    private final DayScheduleMapper dayScheduleMapper;
 
-    private final UserService userService;
+    private final DayScheduleService dayScheduleService;
 
     @Operation(
-            summary = "Find User by Id",
-            description = "Find User by Id Search",
+            summary = "Find DaySchedule by Id",
+            description = "Find DaySchedule by Id Search",
             responses = {
                     @ApiResponse(
                             responseCode = "200",
-                            description = "Successfully loaded User",
-                            content = @Content(mediaType = "application/json", schema = @Schema(implementation = UserDTO.class))
+                            description = "Successfully loaded DaySchedule",
+                            content = @Content(mediaType = "application/json", schema = @Schema(implementation = DayScheduleDTO.class))
                     ),
                     @ApiResponse(
                             responseCode = "400",
-                            description = "Bad User request, Validation error",
+                            description = "Bad DaySchedule request, Validation error",
                             content = @Content(mediaType = "application/json", schema = @Schema(implementation = ErrorMessage.class))
                     ),
                     @ApiResponse(
                             responseCode = "404",
-                            description = "User not found",
+                            description = "DaySchedule not found",
                             content = @Content(mediaType = "application/json", schema = @Schema(implementation = ErrorMessage.class))
                     )
             }
 
     )
     @GetMapping("/{id}")
-    public ResponseEntity<UserDTO> getUserById(@PathVariable Long id) {
-        User user = userService.findById(id);
-        return ResponseEntity.ok().body(userMapper.toDto(user));
+    public ResponseEntity<DayScheduleDTO> getDayScheduleById(@PathVariable Long id) {
+        DaySchedule daySchedule = dayScheduleService.findById(id);
+        return ResponseEntity.ok().body(dayScheduleMapper.toDto(daySchedule));
     }
 
     @Operation(
-            summary = "Users Find All Search",
-            description = "Find All Users without limitations",
+            summary = "DaySchedules Find All Search",
+            description = "Find All DaySchedules without limitations",
             responses = {
                     @ApiResponse(
                             responseCode = "200",
-                            description = "Successfully loaded Users",
+                            description = "Successfully loaded DaySchedules",
                             content = @Content(mediaType = "application/json",
                                     array = @ArraySchema(
-                                            schema = @Schema(implementation = UserDTO.class)))
+                                            schema = @Schema(implementation = DayScheduleDTO.class)))
                     )
             }
     )
     @GetMapping
-    public ResponseEntity<List<UserDTO>> getAllUsers() {
-        return ResponseEntity.ok().body(userService.findAll().stream().map(userMapper::toDto).collect(Collectors.toList()));
+    public ResponseEntity<List<DayScheduleDTO>> getAllDaySchedules() {
+        return ResponseEntity.ok().body(dayScheduleService.findAll().stream()
+                .map(dayScheduleMapper::toDto)
+                .collect(Collectors.toList()));
     }
 
     @Operation(
-            summary = "Create User",
-            description = "Create User Entity",
+            summary = "Create DaySchedule",
+            description = "Create DaySchedule Entity",
             responses = {
                     @ApiResponse(
                             responseCode = "200",
-                            description = "Successfully created User",
-                            content = @Content(mediaType = "application/json", schema = @Schema(implementation = UserDTO.class))
+                            description = "Successfully created DaySchedule",
+                            content = @Content(mediaType = "application/json", schema = @Schema(implementation = DayScheduleDTO.class))
                     ),
                     @ApiResponse(
                             responseCode = "400",
-                            description = "Bad User request, Validation error",
+                            description = "Bad DaySchedule request, Validation error",
                             content = @Content(mediaType = "application/json", schema = @Schema(implementation = ErrorMessage.class))
                     ),
             }
     )
     @PostMapping
-    public ResponseEntity<UserDTO> createUser(@Valid @RequestBody UserCreateRequest request, BindingResult result) {
+    public ResponseEntity<DayScheduleDTO> createDaySchedule(@Valid @RequestBody DayScheduleCreateRequest request, BindingResult result) {
         super.checkBindingResult(result);
 
-        User user = userMapper.toEntity(request);
-        user = userService.create(user);
-        return ResponseEntity.ok().body(userMapper.toDto(user));
+        DaySchedule daySchedule = dayScheduleMapper.toEntity(request);
+        daySchedule = dayScheduleService.create(daySchedule,request.getBreaksIds());
+        return ResponseEntity.ok().body(dayScheduleMapper.toDto(daySchedule));
     }
 
     @Operation(
-            summary = "Update User",
-            description = "Update User entity",
+            summary = "Update DaySchedule",
+            description = "Update DaySchedule entity",
             responses = {
                     @ApiResponse(
                             responseCode = "200",
-                            description = "Successfully updated User",
-                            content = @Content(mediaType = "application/json", schema = @Schema(implementation = UserDTO.class))
+                            description = "Successfully updated DaySchedule",
+                            content = @Content(mediaType = "application/json", schema = @Schema(implementation = DayScheduleDTO.class))
                     ),
                     @ApiResponse(
                             responseCode = "400",
-                            description = "Bad User request, Validation error",
+                            description = "Bad DaySchedule request, Validation error",
                             content = @Content(mediaType = "application/json", schema = @Schema(implementation = ErrorMessage.class))
                     ),
                     @ApiResponse(
                             responseCode = "404",
-                            description = "User not found",
+                            description = "DaySchedule not found",
                             content = @Content(mediaType = "application/json", schema = @Schema(implementation = ErrorMessage.class))
                     )
             }
     )
     @PutMapping
-    public ResponseEntity<UserDTO> updateUser(@Valid @RequestBody UserUpdateRequest request, BindingResult result) {
+    public ResponseEntity<DayScheduleDTO> updateDaySchedule(@Valid @RequestBody DayScheduleUpdateRequest request, BindingResult result) {
         super.checkBindingResult(result);
-        User user = userMapper.toEntity(request);
-        user = userService.update(user);
-        return ResponseEntity.ok().body(userMapper.toDto(user));
+        DaySchedule daySchedule = dayScheduleMapper.toEntity(request);
+        daySchedule = dayScheduleService.update(daySchedule,request.getBreaksIds());
+        return ResponseEntity.ok().body(dayScheduleMapper.toDto(daySchedule));
     }
 
     @Operation(
-            summary = "Delete User",
-            description = "Delete User entity by Id",
+            summary = "Delete DaySchedule",
+            description = "Delete DaySchedule entity by Id",
             responses = {
                     @ApiResponse(
                             responseCode = "204",
-                            description = "Successfully deleted User"),
+                            description = "Successfully deleted DaySchedule"),
                     @ApiResponse(
                             responseCode = "404",
-                            description = "User not found",
+                            description = "DaySchedule not found",
                             content = @Content(mediaType = "application/json", schema = @Schema(implementation = ErrorMessage.class))
                     )
             }
     )
     @DeleteMapping("/{id}")
-    public ResponseEntity<Void> deleteUser(@PathVariable Long id) {
-        userService.softDelete(id);
+    public ResponseEntity<Void> deleteDaySchedule(@PathVariable Long id) {
+        dayScheduleService.softDelete(id);
         return ResponseEntity.noContent().build();
     }
 }

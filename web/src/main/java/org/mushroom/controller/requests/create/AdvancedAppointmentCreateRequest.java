@@ -10,6 +10,8 @@ import org.mushroom.model.Terminal;
 import org.mushroom.model.User;
 import org.springframework.validation.annotation.Validated;
 
+import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Pattern;
 import java.time.LocalDate;
 import java.time.LocalTime;
 
@@ -21,11 +23,26 @@ import java.time.LocalTime;
 @Schema(description = "Object with AdvancedAppointment information")
 public class AdvancedAppointmentCreateRequest {
 
-    private User user;
-    private Terminal terminal;
-    private Service service;
+    @NotNull
+    private Long userId;
+
+    @NotNull
+    private Long terminalId;
+
+    @NotNull
+    private Long serviceId;
+
+    @NotNull
     private LocalDate date;
-    private LocalTime timeFrom;
-    private LocalTime timeTo;
+
+    @Schema(requiredMode = Schema.RequiredMode.REQUIRED, type = "string", description = "Pre-booking time", example = "11:00:00")
+    @NotNull
+    @Pattern(regexp = "^([01]\\d|2[0-3]):[0-5]\\d:[0-5]\\d$", message = "Time must be in the format HH:mm:ss")
+    private String timeFrom;
+
+//    @Schema(requiredMode = Schema.RequiredMode.REQUIRED, type = "string", description = "break start time", example = "13:00:00")
+//    @NotNull
+//    @Pattern(regexp = "^([01]\\d|2[0-3]):[0-5]\\d:[0-5]\\d$", message = "Time must be in the format HH:mm:ss")
+//    private String timeTo;
 
 }

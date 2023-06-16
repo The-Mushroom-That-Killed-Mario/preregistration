@@ -1,21 +1,21 @@
 package org.mushroom.controller.dto;
 
-import org.mushroom.model.DaySchedule;
+import io.swagger.v3.oas.annotations.media.Schema;
+import lombok.Data;
 
+import javax.validation.constraints.Pattern;
 import java.time.LocalDateTime;
 import java.time.LocalTime;
-import java.util.Collections;
-import java.util.Set;
 
+@Data
 public class BreakDTO {
 
     private Long id;
-    private LocalTime fromTime;
-    private LocalTime toTime;
+    @Schema(example = "13:00:00")
+    private String fromTime;
+    @Schema(example = "14:00:00")
+    private String toTime;
     private LocalDateTime created;
     private LocalDateTime changed;
-    private boolean isActual;
 
-
-    private Set<DaySchedule> scheduleDays = Collections.emptySet();
 }

@@ -64,12 +64,15 @@ public class AdvancedAppointment {
     private LocalTime timeTo;
 
     @Column(name = "created")
+    @Builder.Default
     private LocalDateTime created = LocalDateTime.now();
 
     @Column(name = "changed")
+    @Builder.Default
     private LocalDateTime changed = LocalDateTime.now();
 
     @Column(name = "is_actual")
-    private boolean isActual;
+    @Builder.Default
+    private boolean isActual = true;
 
 }

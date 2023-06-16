@@ -6,6 +6,7 @@ import org.mushroom.exception.EntityNotFoundException;
 import org.mushroom.model.Service;
 import org.mushroom.repository.ServiceRepository;
 import org.mushroom.service.ServiceService;
+import org.mushroom.util.TimeDispatcher;
 
 import java.time.LocalDateTime;
 import java.util.List;
@@ -13,8 +14,10 @@ import java.util.Optional;
 @RequiredArgsConstructor
 @org.springframework.stereotype.Service
 public class ServiceServiceImpl implements ServiceService {
+
     private final ServiceRepository serviceRepository;
 
+    private final TimeDispatcher timeDispatcher;
     @Override
     public Optional<Service> findOne(Long id) {
         return Optional.of(findById(id));
@@ -39,15 +42,15 @@ public class ServiceServiceImpl implements ServiceService {
 
     @Override
     public Service create(Service service) {
-        service.setCreated(LocalDateTime.now());
-        service.setChanged(LocalDateTime.now());
         return serviceRepository.save(service);
     }
 
     @Override
     public Service update(Service service) {
-        service.setCreated(findById(service.getId()).getCreated());
-        service.setChanged(LocalDateTime.now());
+        Service tempService = findById(service.getId());
+        service.setCreated(tempService.getCreated());
+        service.setTerminalServices(tempService.getTerminalServices());
+        service.setAdvancedAppointment(tempService.getAdvancedAppointment());
         return serviceRepository.save(service);
     }
 
@@ -60,7 +63,7 @@ public class ServiceServiceImpl implements ServiceService {
     public void softDelete(Long id) {
         Service service = findById(id);
         if (service.getDeleted() == null) {
-            service.setDeleted(LocalDateTime.now());
+            service.setDeleted(timeDispatcher.getTime());
             serviceRepository.save(service);
         }
     }

@@ -1,5 +1,7 @@
 package org.mushroom.model;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.EqualsAndHashCode;
@@ -8,6 +10,7 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 import lombok.ToString;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
@@ -17,11 +20,14 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
+import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
 import java.time.LocalDateTime;
+import java.util.ArrayList;
 import java.util.Collections;
+import java.util.List;
 import java.util.Set;
 
 @AllArgsConstructor
@@ -31,14 +37,15 @@ import java.util.Set;
 @Getter
 @ToString(
         exclude = {
-                "scheduleDays"
+                "scheduleDays","outDays","terminal","service"
         }
 )
 @EqualsAndHashCode(
         exclude = {
-                "scheduleDays"
+                "scheduleDays","outDays","terminal","service"
         }
 )
+@JsonIgnoreProperties({"terminalService"})
 
 @Entity
 @Table(name = "terminal_services")
@@ -53,27 +60,33 @@ public class TerminalServices {
             joinColumns = @JoinColumn(name = "terminal_services_id"),
             inverseJoinColumns = @JoinColumn(name = "week_day_schedule_id")
     )
-
+    @Builder.Default
     private Set<DaySchedule> scheduleDays = Collections.emptySet();
 
-    @OneToMany(mappedBy = "terminalService", fetch = FetchType.EAGER)
-    private Set<CalendarOutDays> outDays;
+    @OneToMany(mappedBy = "terminalService", fetch = FetchType.EAGER, cascade = CascadeType.ALL)
+    @Builder.Default
+    private List<CalendarOutDays> outDays = Collections.emptyList();
 
-    @OneToOne(fetch = FetchType.EAGER)
+    @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "service_id")
+    @JsonBackReference
     private Service service;
 
-    @OneToOne(fetch = FetchType.EAGER)
+    @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "terminal_id")
+    @JsonBackReference
     private Terminal terminal;
 
     @Column(name = "created")
+    @Builder.Default
     private LocalDateTime created = LocalDateTime.now();
 
     @Column(name = "changed")
+    @Builder.Default
     private LocalDateTime changed = LocalDateTime.now();
 
     @Column(name = "is_actual")
-    private boolean isActual;
+    @Builder.Default
+    private boolean isActual = true;
 
 }
