@@ -101,7 +101,6 @@ public class TerminalController extends BaseController {
     @PostMapping
     public ResponseEntity<Terminal> createTerminal(@Valid @RequestBody TerminalCreateRequest request, BindingResult result) {
         super.checkBindingResult(result);
-
         Terminal terminal = terminalMapper.toEntity(request);
         terminal = terminalService.create(terminal);
         return ResponseEntity.ok().body(terminal);

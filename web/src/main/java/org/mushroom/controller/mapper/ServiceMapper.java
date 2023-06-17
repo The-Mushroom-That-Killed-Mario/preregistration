@@ -9,8 +9,6 @@ import org.mushroom.model.Service;
 @Mapper(componentModel = "spring")
 public interface ServiceMapper {
 
-    ServiceUpdateRequest toRequest(Service entity);
-
     Service toEntity(ServiceUpdateRequest request);
 
     Service toEntity(ServiceCreateRequest request);

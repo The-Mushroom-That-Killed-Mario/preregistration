@@ -9,8 +9,6 @@ import org.mushroom.model.CalendarOutDays;
 @Mapper(componentModel = "spring")
 public interface CalendarOutDaysMapper {
 
-    CalendarOutDaysUpdateRequest toRequest(CalendarOutDays entity);
-
     CalendarOutDays toEntity(CalendarOutDaysUpdateRequest request);
 
     CalendarOutDays toEntity(CalendarOutDaysCreateRequest request);

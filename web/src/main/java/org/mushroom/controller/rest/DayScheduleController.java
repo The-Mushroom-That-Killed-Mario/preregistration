@@ -104,7 +104,6 @@ public class DayScheduleController extends BaseController {
     @PostMapping
     public ResponseEntity<DayScheduleDTO> createDaySchedule(@Valid @RequestBody DayScheduleCreateRequest request, BindingResult result) {
         super.checkBindingResult(result);
-
         DaySchedule daySchedule = dayScheduleMapper.toEntity(request);
         daySchedule = dayScheduleService.create(daySchedule,request.getBreaksIds());
         return ResponseEntity.ok().body(dayScheduleMapper.toDto(daySchedule));

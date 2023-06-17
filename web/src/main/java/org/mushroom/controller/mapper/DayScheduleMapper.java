@@ -10,8 +10,6 @@ import org.mushroom.model.DaySchedule;
 @Mapper(componentModel = "spring")
 public interface DayScheduleMapper {
 
-    DayScheduleUpdateRequest toRequest(DaySchedule entity);
-
     DaySchedule toEntity(DayScheduleUpdateRequest request);
 
     DaySchedule toEntity(DayScheduleCreateRequest request);

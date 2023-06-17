@@ -10,7 +10,6 @@ import org.mushroom.model.User;
 @Mapper(unmappedTargetPolicy = ReportingPolicy.IGNORE,
         componentModel = "spring")
 public interface UserMapper {
-    UserUpdateRequest toRequest(User entity);
 
     User toEntity(UserUpdateRequest request);
 

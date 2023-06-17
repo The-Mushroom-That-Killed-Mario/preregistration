@@ -11,7 +11,6 @@ import org.mushroom.service.ServiceService;
 import org.mushroom.service.TerminalService;
 import org.mushroom.service.TerminalServicesService;
 import org.mushroom.util.TimeDispatcher;
-import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDate;
@@ -61,26 +60,14 @@ public class TerminalServicesServiceImpl implements TerminalServicesService {
 
     @Override
     public TerminalServices create(TerminalServices terminalServices) {
-        terminalServices.setService(serviceService.findById(terminalServices.getService().getId()));
-        terminalServices.setTerminal(terminalService.findById(terminalServices.getTerminal().getId()));
-        terminalServices.setScheduleDays(dayScheduleService.findAllByIds(
-                terminalServices.getScheduleDays().stream()
-                        .map(DaySchedule::getId)
-                        .collect(Collectors.toSet())));
-
+        updateNestedFieldsByIds(terminalServices);
         return terminalServicesRepository.save(checkRestore(terminalServices));
     }
-
 
     @Override
     public TerminalServices update(TerminalServices terminalServices) {
         terminalServices.setCreated(findById(terminalServices.getId()).getCreated());
-        terminalServices.setService(serviceService.findById(terminalServices.getService().getId()));
-        terminalServices.setTerminal(terminalService.findById(terminalServices.getTerminal().getId()));
-        terminalServices.setScheduleDays(dayScheduleService.findAllByIds(
-                terminalServices.getScheduleDays().stream()
-                        .map(DaySchedule::getId)
-                        .collect(Collectors.toSet())));
+        updateNestedFieldsByIds(terminalServices);
         return hideNotActualElement(terminalServicesRepository.save(terminalServices));
 
     }
@@ -105,7 +92,6 @@ public class TerminalServicesServiceImpl implements TerminalServicesService {
         return hideNotActualElement(terminalServicesRepository.save(tempTerminalServices));
     }
 
-
     @Override
     public void delete(Long id) {
         terminalServicesRepository.deleteById(id);
@@ -120,12 +106,12 @@ public class TerminalServicesServiceImpl implements TerminalServicesService {
         }
     }
 
-    private TerminalServices checkRestore(TerminalServices terminalServices){
+    private TerminalServices checkRestore(TerminalServices terminalServices) {
         long terminalId = terminalServices.getTerminal().getId();
         long serviceId = terminalServices.getService().getId();
-        if (terminalServicesRepository.existsByTerminalIdAndServiceId(terminalId,serviceId)){
-            TerminalServices bdTerminalServices = terminalServicesRepository.findByTerminalIdAndServiceId(terminalId,serviceId);
-            if (!bdTerminalServices.isActual()){
+        if (terminalServicesRepository.existsByTerminalIdAndServiceId(terminalId, serviceId)) {
+            TerminalServices bdTerminalServices = terminalServicesRepository.findByTerminalIdAndServiceId(terminalId, serviceId);
+            if (!bdTerminalServices.isActual()) {
                 bdTerminalServices.setActual(true);
                 bdTerminalServices.setChanged(timeDispatcher.getTime());
                 return bdTerminalServices;
@@ -134,13 +120,20 @@ public class TerminalServicesServiceImpl implements TerminalServicesService {
         return terminalServices;
     }
 
-
     private TerminalServices hideNotActualElement(TerminalServices terminalServices) {
         terminalServices.getScheduleDays().removeIf(s -> !s.isActual());
         terminalServices.getOutDays().removeIf(o -> !o.isActual());
         return terminalServices;
     }
 
+    private void updateNestedFieldsByIds(TerminalServices terminalServices) {
+        terminalServices.setService(serviceService.findById(terminalServices.getService().getId()));
+        terminalServices.setTerminal(terminalService.findById(terminalServices.getTerminal().getId()));
+        terminalServices.setScheduleDays(dayScheduleService.findAllByIds(
+                terminalServices.getScheduleDays().stream()
+                        .map(DaySchedule::getId)
+                        .collect(Collectors.toSet())));
+    }
 //    @Override
 //    public TerminalServices findByTerminalIdAndServiceId(Long terminalId, Long serviceId) {
 //

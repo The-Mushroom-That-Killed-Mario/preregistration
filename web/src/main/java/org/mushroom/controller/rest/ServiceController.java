@@ -101,7 +101,6 @@ public class ServiceController extends BaseController {
     @PostMapping
     public ResponseEntity<Service> createService(@Valid @RequestBody ServiceCreateRequest request, BindingResult result) {
         super.checkBindingResult(result);
-
         Service service = serviceMapper.toEntity(request);
         service = serviceService.create(service);
         return ResponseEntity.ok().body(service);

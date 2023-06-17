@@ -9,8 +9,6 @@ import org.mushroom.model.Terminal;
 @Mapper(componentModel = "spring")
 public interface TerminalMapper {
 
-    TerminalUpdateRequest toRequest(Terminal entity);
-
     Terminal toEntity(TerminalUpdateRequest request);
 
     Terminal toEntity(TerminalCreateRequest request);

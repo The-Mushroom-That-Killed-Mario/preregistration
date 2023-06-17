@@ -17,12 +17,9 @@ import static org.mushroom.exception.ApplicationErrorCodes.SQL_ERROR;
 @RequiredArgsConstructor
 public class DefaultExceptionHandler {
 
-
     @ExceptionHandler(Exception.class)
     public ResponseEntity<ErrorMessage> handleOthersException(Exception e) {
         /* Handles all other exceptions. Status code 500. */
-
-
         return new ResponseEntity<>(
                 new ErrorMessage(
                         System.currentTimeMillis(),
@@ -34,7 +31,6 @@ public class DefaultExceptionHandler {
 
     @ExceptionHandler({EntityNotFoundException.class, DeletedEntityException.class})
     public ResponseEntity<ErrorMessage> handleEntityNotFoundException(RuntimeException e) {
-
         return new ResponseEntity<>(
                 new ErrorMessage(
                         System.currentTimeMillis(),
@@ -46,7 +42,6 @@ public class DefaultExceptionHandler {
 
     @ExceptionHandler(IllegalRequestException.class)
     public ResponseEntity<ErrorMessage> handleIllegalRequestException(IllegalRequestException e) {
-
         return new ResponseEntity<>(
                 new ErrorMessage(
                         System.currentTimeMillis(),
@@ -58,7 +53,6 @@ public class DefaultExceptionHandler {
 
     @ExceptionHandler(DataAccessException.class)
     public ResponseEntity<ErrorMessage> handleSQLException(DataAccessException e) {
-
         return new ResponseEntity<>(
                 new ErrorMessage(
                         System.currentTimeMillis(),

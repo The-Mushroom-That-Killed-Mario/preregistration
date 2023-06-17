@@ -108,9 +108,6 @@ public class AdvancedAppointmentController extends BaseController {
         super.checkBindingResult(result);
 
         AdvancedAppointment advancedAppointment = advancedAppointmentMapper.toEntity(request);
-        advancedAppointment.setService(Service.builder().id(request.getServiceId()).build());
-        advancedAppointment.setTerminal(Terminal.builder().id(request.getTerminalId()).build());
-        advancedAppointment.setUser(User.builder().id(request.getUserId()).build());
 
         advancedAppointment = advancedAppointmentService.create(advancedAppointment);
 

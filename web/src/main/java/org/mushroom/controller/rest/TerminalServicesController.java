@@ -111,14 +111,10 @@ public class TerminalServicesController extends BaseController {
     @PostMapping
     public ResponseEntity<TerminalServicesDTO> createTerminalServices(@Valid @RequestBody TerminalServicesCreateRequest request, BindingResult result) {
         super.checkBindingResult(result);
-
-        TerminalServices terminalServices = TerminalServices.builder()
-                .terminal(Terminal.builder().id(request.getTerminalId()).build())
-                .service(Service.builder().id(request.getServiceId()).build())
-                .scheduleDays(request.getScheduleDaysIds().stream().map(x -> DaySchedule.builder().id(x).build()).collect(Collectors.toSet()))
-                .outDays(Collections.emptyList())
-                .build();
-
+        TerminalServices terminalServices = terminalServicesMapper.toEntity(request);
+        terminalServices.setScheduleDays(request.getScheduleDaysIds().stream()
+                .map(x -> DaySchedule.builder().id(x).build())
+                .collect(Collectors.toSet()));
         terminalServices = terminalServicesService.create(terminalServices);
         return ResponseEntity.ok().body(terminalServicesMapper.toDto(terminalServices));
     }
@@ -147,13 +143,11 @@ public class TerminalServicesController extends BaseController {
     @PutMapping
     public ResponseEntity<TerminalServicesDTO> updateTerminalServices(@Valid @RequestBody TerminalServicesUpdateRequest request, BindingResult result) {
         super.checkBindingResult(result);
-        TerminalServices terminalServices = terminalServicesService.update(
-                TerminalServices.builder()
-                        .id(request.getId())
-                        .terminal(Terminal.builder().id(request.getTerminalId()).build())
-                        .service(Service.builder().id(request.getServiceId()).build())
-                        .build()
-        );
+        TerminalServices terminalServices = terminalServicesMapper.toEntity(request);
+        terminalServices.setScheduleDays(request.getScheduleDaysIds().stream()
+                .map(x -> DaySchedule.builder().id(x).build())
+                .collect(Collectors.toSet()));
+        terminalServices = terminalServicesService.update(terminalServices);
         return ResponseEntity.ok().body(terminalServicesMapper.toDto(terminalServices));
     }
 

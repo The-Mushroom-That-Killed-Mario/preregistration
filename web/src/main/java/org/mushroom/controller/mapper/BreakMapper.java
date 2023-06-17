@@ -9,8 +9,6 @@ import org.mushroom.model.Break;
 @Mapper(componentModel = "spring")
 public interface BreakMapper {
 
-    BreakUpdateRequest toRequest(Break entity);
-
     Break toEntity(BreakUpdateRequest request);
 
     Break toEntity(BreakCreateRequest request);
