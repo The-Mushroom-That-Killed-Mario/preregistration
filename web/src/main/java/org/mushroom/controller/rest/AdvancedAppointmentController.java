@@ -7,15 +7,11 @@ import io.swagger.v3.oas.annotations.media.Schema;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import lombok.RequiredArgsConstructor;
 import org.mushroom.controller.dto.AdvancedAppointmentDTO;
-import org.mushroom.controller.dto.BreakDTO;
 import org.mushroom.controller.mapper.AdvancedAppointmentMapper;
 import org.mushroom.controller.requests.create.AdvancedAppointmentCreateRequest;
 import org.mushroom.controller.requests.update.AdvancedAppointmentUpdateRequest;
 import org.mushroom.exception.ErrorMessage;
 import org.mushroom.model.AdvancedAppointment;
-import org.mushroom.model.Service;
-import org.mushroom.model.Terminal;
-import org.mushroom.model.User;
 import org.mushroom.service.AdvancedAppointmentService;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.BindingResult;
@@ -29,7 +25,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import javax.validation.Valid;
-import java.time.LocalTime;
 import java.util.List;
 
 @RestController

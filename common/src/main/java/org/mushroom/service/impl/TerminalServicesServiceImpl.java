@@ -137,6 +137,6 @@ public class TerminalServicesServiceImpl implements TerminalServicesService {
 
     @Override
     public TerminalServices findByTerminalIdAndServiceId(Long terminalId, Long serviceId) {
-        return terminalServicesRepository.findByTerminalIdAndServiceId(terminalId,serviceId);
+        return terminalServicesRepository.findByTerminalIdAndServiceId(terminalId, serviceId);
     }
 }

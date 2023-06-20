@@ -13,7 +13,7 @@ public class ErrorMessage {
     @Schema(example = "30",
             type = "Integer",
             description =
-                    "Application error codes:\n"+
+                    "Application error codes:\n" +
                             "    FATAL_ERROR : 1;\n" +
                             "    SQL_ERROR : 10;\n" +
                             "    BAD_REQUEST_PARAMETER : 20;\n" +

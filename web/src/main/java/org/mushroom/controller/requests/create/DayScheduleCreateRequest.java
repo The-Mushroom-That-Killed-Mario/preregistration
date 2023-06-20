@@ -5,15 +5,12 @@ import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 import lombok.Setter;
-import org.mushroom.model.Break;
-
 import org.springframework.validation.annotation.Validated;
 
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Pattern;
-import java.time.LocalTime;
-import java.util.Set;
 import java.time.DayOfWeek;
+import java.util.Set;
 
 @Setter
 @Getter

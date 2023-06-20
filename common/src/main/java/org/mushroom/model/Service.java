@@ -31,12 +31,12 @@ import java.util.Set;
 @Entity
 @Table(name = "service")
 @EqualsAndHashCode(exclude = {
-        "advancedAppointment","terminalService"
+        "advancedAppointment", "terminalService"
 })
 @ToString(exclude = {
-        "advancedAppointment","terminalService"
+        "advancedAppointment", "terminalService"
 })
-@JsonIgnoreProperties({"advancedAppointment","terminalService"})
+@JsonIgnoreProperties({"advancedAppointment", "terminalService"})
 public class Service {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

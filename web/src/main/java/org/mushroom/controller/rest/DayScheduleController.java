@@ -105,7 +105,7 @@ public class DayScheduleController extends BaseController {
     public ResponseEntity<DayScheduleDTO> createDaySchedule(@Valid @RequestBody DayScheduleCreateRequest request, BindingResult result) {
         super.checkBindingResult(result);
         DaySchedule daySchedule = dayScheduleMapper.toEntity(request);
-        daySchedule = dayScheduleService.create(daySchedule,request.getBreaksIds());
+        daySchedule = dayScheduleService.create(daySchedule, request.getBreaksIds());
         return ResponseEntity.ok().body(dayScheduleMapper.toDto(daySchedule));
     }
 
@@ -134,7 +134,7 @@ public class DayScheduleController extends BaseController {
     public ResponseEntity<DayScheduleDTO> updateDaySchedule(@Valid @RequestBody DayScheduleUpdateRequest request, BindingResult result) {
         super.checkBindingResult(result);
         DaySchedule daySchedule = dayScheduleMapper.toEntity(request);
-        daySchedule = dayScheduleService.update(daySchedule,request.getBreaksIds());
+        daySchedule = dayScheduleService.update(daySchedule, request.getBreaksIds());
         return ResponseEntity.ok().body(dayScheduleMapper.toDto(daySchedule));
     }
 

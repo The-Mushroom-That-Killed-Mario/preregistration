@@ -1,7 +1,6 @@
 package org.mushroom.controller.dto;
 
 import lombok.Data;
-import org.mushroom.model.TerminalServices;
 
 import java.time.LocalDate;
 import java.time.LocalDateTime;

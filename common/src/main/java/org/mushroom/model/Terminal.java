@@ -36,7 +36,7 @@ import java.util.Set;
         "advancedAppointment",
         "terminalServices"
 })
-@JsonIgnoreProperties({"advancedAppointment","terminalServices"})
+@JsonIgnoreProperties({"advancedAppointment", "terminalServices"})
 @Entity
 @Table(name = "terminal")
 public class Terminal {

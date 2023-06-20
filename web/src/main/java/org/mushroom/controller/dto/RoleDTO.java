@@ -18,5 +18,5 @@ public class RoleDTO {
 
     private boolean isActual;
 
-    private Set<User> users = Collections.emptySet();
+    private final Set<User> users = Collections.emptySet();
 }

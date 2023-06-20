@@ -8,9 +8,9 @@ import org.mushroom.repository.ServiceRepository;
 import org.mushroom.service.ServiceService;
 import org.mushroom.util.TimeDispatcher;
 
-import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Optional;
+
 @RequiredArgsConstructor
 @org.springframework.stereotype.Service
 public class ServiceServiceImpl implements ServiceService {
@@ -18,6 +18,7 @@ public class ServiceServiceImpl implements ServiceService {
     private final ServiceRepository serviceRepository;
 
     private final TimeDispatcher timeDispatcher;
+
     @Override
     public Optional<Service> findOne(Long id) {
         return Optional.of(findById(id));
@@ -25,8 +26,8 @@ public class ServiceServiceImpl implements ServiceService {
 
     @Override
     public Service findById(Long id) {
-        Service service =  serviceRepository.findById(id).orElseThrow(() -> new EntityNotFoundException(id, Service.class));
-        if (service.getDeleted()!=null){
+        Service service = serviceRepository.findById(id).orElseThrow(() -> new EntityNotFoundException(id, Service.class));
+        if (service.getDeleted() != null) {
             throw new DeletedEntityException(id, Service.class);
         }
         return service;
@@ -35,7 +36,7 @@ public class ServiceServiceImpl implements ServiceService {
     @Override
     public List<Service> findAll() {
         List<Service> services = serviceRepository.findAll();
-        services.removeIf(x->x.getDeleted()!=null);
+        services.removeIf(x -> x.getDeleted() != null);
         return services;
     }
 

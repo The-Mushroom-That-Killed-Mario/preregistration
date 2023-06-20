@@ -7,7 +7,6 @@ import io.swagger.v3.oas.annotations.media.Schema;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import lombok.RequiredArgsConstructor;
 import org.mushroom.controller.dto.BreakDTO;
-import org.mushroom.controller.dto.UserDTO;
 import org.mushroom.controller.mapper.BreakMapper;
 import org.mushroom.controller.requests.create.BreakCreateRequest;
 import org.mushroom.controller.requests.update.BreakUpdateRequest;

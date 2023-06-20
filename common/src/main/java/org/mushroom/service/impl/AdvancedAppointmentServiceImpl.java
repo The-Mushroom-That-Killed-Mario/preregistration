@@ -16,7 +16,6 @@ import org.mushroom.service.ServiceService;
 import org.mushroom.service.TerminalService;
 import org.mushroom.service.TerminalServicesService;
 import org.mushroom.service.UserService;
-import org.mushroom.util.TimeDispatcher;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDate;
@@ -108,8 +107,8 @@ public class AdvancedAppointmentServiceImpl implements AdvancedAppointmentServic
     }
 
     private void checkOutDates(TerminalServices terminalServices, LocalDate date) {
-        if(terminalServices.getOutDays().stream()
-                .anyMatch(x -> x.getDate().equals(date) && x.isActual())){
+        if (terminalServices.getOutDays().stream()
+                .anyMatch(x -> x.getDate().equals(date) && x.isActual())) {
             throw new DayOffException(date);
         }
     }
@@ -127,7 +126,7 @@ public class AdvancedAppointmentServiceImpl implements AdvancedAppointmentServic
         }
     }
 
-    private void checkBreakTime(DaySchedule daySchedule, LocalTime time){
+    private void checkBreakTime(DaySchedule daySchedule, LocalTime time) {
         daySchedule.getBreaks().forEach(x -> {
             if (x.getFromTime().isBefore(time) && x.getToTime().isAfter(time)) {
                 throw new InvalidScheduleException("non-working time from schedule it break");

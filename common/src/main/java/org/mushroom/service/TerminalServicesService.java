@@ -1,14 +1,8 @@
 package org.mushroom.service;
 
-import org.mushroom.model.DaySchedule;
-import org.mushroom.model.Terminal;
 import org.mushroom.model.TerminalServices;
 
-import javax.validation.Valid;
-import javax.validation.constraints.Pattern;
-import javax.validation.constraints.Positive;
 import java.time.LocalDate;
-import java.time.LocalDateTime;
 import java.util.Set;
 
 

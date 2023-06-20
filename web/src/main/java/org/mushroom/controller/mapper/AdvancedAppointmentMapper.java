@@ -10,13 +10,14 @@ import org.mushroom.model.AdvancedAppointment;
 @Mapper(componentModel = "spring")
 public interface AdvancedAppointmentMapper {
 
-    @Mapping(target="user.id", source="userId")
-    @Mapping(target="terminal.id", source="terminalId")
-    @Mapping(target="service.id", source="serviceId")
+    @Mapping(target = "user.id", source = "userId")
+    @Mapping(target = "terminal.id", source = "terminalId")
+    @Mapping(target = "service.id", source = "serviceId")
     AdvancedAppointment toEntity(AdvancedAppointmentUpdateRequest request);
-    @Mapping(target="user.id", source="userId")
-    @Mapping(target="terminal.id", source="terminalId")
-    @Mapping(target="service.id", source="serviceId")
+
+    @Mapping(target = "user.id", source = "userId")
+    @Mapping(target = "terminal.id", source = "terminalId")
+    @Mapping(target = "service.id", source = "serviceId")
     AdvancedAppointment toEntity(AdvancedAppointmentCreateRequest request);
 
     AdvancedAppointmentDTO toDto(AdvancedAppointment user);

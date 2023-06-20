@@ -10,12 +10,12 @@ import org.mushroom.model.TerminalServices;
 @Mapper(componentModel = "spring")
 public interface TerminalServicesMapper {
 
-    @Mapping(target="terminal.id", source="terminalId")
-    @Mapping(target="service.id", source="serviceId")
+    @Mapping(target = "terminal.id", source = "terminalId")
+    @Mapping(target = "service.id", source = "serviceId")
     TerminalServices toEntity(TerminalServicesUpdateRequest request);
 
-    @Mapping(target="terminal.id", source="terminalId")
-    @Mapping(target="service.id", source="serviceId")
+    @Mapping(target = "terminal.id", source = "terminalId")
+    @Mapping(target = "service.id", source = "serviceId")
     TerminalServices toEntity(TerminalServicesCreateRequest request);
 
     TerminalServicesDTO toDto(TerminalServices terminalServices);

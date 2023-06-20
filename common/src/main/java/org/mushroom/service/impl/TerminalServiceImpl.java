@@ -9,15 +9,16 @@ import org.mushroom.service.TerminalService;
 import org.mushroom.util.TimeDispatcher;
 import org.springframework.stereotype.Service;
 
-import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Optional;
+
 @RequiredArgsConstructor
 @Service
 public class TerminalServiceImpl implements TerminalService {
     private final TerminalRepository terminalRepository;
-    
+
     private final TimeDispatcher timeDispatcher;
+
     @Override
     public Optional<Terminal> findOne(Long id) {
         return Optional.of(findById(id));
@@ -25,8 +26,8 @@ public class TerminalServiceImpl implements TerminalService {
 
     @Override
     public Terminal findById(Long id) {
-        Terminal terminal =  terminalRepository.findById(id).orElseThrow(() -> new EntityNotFoundException(id, Terminal.class));
-        if (terminal.getDeleted()!=null){
+        Terminal terminal = terminalRepository.findById(id).orElseThrow(() -> new EntityNotFoundException(id, Terminal.class));
+        if (terminal.getDeleted() != null) {
             throw new DeletedEntityException(id, Terminal.class);
         }
         return terminal;
@@ -35,7 +36,7 @@ public class TerminalServiceImpl implements TerminalService {
     @Override
     public List<Terminal> findAll() {
         List<Terminal> terminals = terminalRepository.findAll();
-        terminals.removeIf(x->x.getDeleted()!=null);
+        terminals.removeIf(x -> x.getDeleted() != null);
         return terminals;
     }
 

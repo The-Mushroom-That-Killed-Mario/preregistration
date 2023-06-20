@@ -12,8 +12,6 @@ import org.mushroom.controller.requests.create.TerminalServicesCreateRequest;
 import org.mushroom.controller.requests.update.TerminalServicesUpdateRequest;
 import org.mushroom.exception.ErrorMessage;
 import org.mushroom.model.DaySchedule;
-import org.mushroom.model.Service;
-import org.mushroom.model.Terminal;
 import org.mushroom.model.TerminalServices;
 import org.mushroom.service.TerminalServicesService;
 import org.springframework.http.ResponseEntity;
@@ -29,7 +27,6 @@ import org.springframework.web.bind.annotation.RestController;
 
 import javax.validation.Valid;
 import java.time.LocalDate;
-import java.util.Collections;
 import java.util.List;
 import java.util.Set;
 import java.util.stream.Collectors;

@@ -6,7 +6,6 @@ import io.swagger.v3.oas.annotations.media.Content;
 import io.swagger.v3.oas.annotations.media.Schema;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import lombok.RequiredArgsConstructor;
-import org.mushroom.controller.dto.BreakDTO;
 import org.mushroom.controller.mapper.ServiceMapper;
 import org.mushroom.controller.requests.create.ServiceCreateRequest;
 import org.mushroom.controller.requests.update.ServiceUpdateRequest;

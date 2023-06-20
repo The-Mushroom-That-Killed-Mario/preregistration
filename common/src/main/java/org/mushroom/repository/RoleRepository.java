@@ -11,5 +11,6 @@ import java.util.Set;
 @Repository
 public interface RoleRepository extends JpaRepository<Role, Long> {
     List<Role> findAllByisActualIsTrueOrderById();
+
     Set<Role> findRolesByName(SystemRole name);
 }

@@ -8,7 +8,6 @@ import org.mushroom.repository.RoleRepository;
 import org.mushroom.service.RoleService;
 import org.springframework.stereotype.Service;
 
-import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Optional;
 
@@ -25,8 +24,8 @@ public class RoleServiceImpl implements RoleService {
 
     @Override
     public Role findById(Long id) {
-        Role role =  roleRepository.findById(id).orElseThrow(() -> new EntityNotFoundException(id, Role.class));
-        if (!role.isActual()){
+        Role role = roleRepository.findById(id).orElseThrow(() -> new EntityNotFoundException(id, Role.class));
+        if (!role.isActual()) {
             throw new DeletedEntityException(id, Role.class);
         }
         return role;
@@ -35,7 +34,7 @@ public class RoleServiceImpl implements RoleService {
     @Override
     public List<Role> findAll() {
         List<Role> roles = roleRepository.findAll();
-        roles.removeIf(x->!x.isActual());
+        roles.removeIf(x -> !x.isActual());
         return roles;
     }
 
@@ -55,7 +54,7 @@ public class RoleServiceImpl implements RoleService {
     public void delete(Long id) {
         roleRepository.deleteById(id);
     }
-    
+
     @Override
     public void softDelete(Long id) {
         Role role = findById(id);

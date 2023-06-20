@@ -5,7 +5,6 @@ import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 import lombok.Setter;
-import org.mushroom.model.TerminalServices;
 import org.springframework.validation.annotation.Validated;
 
 import javax.validation.constraints.NotNull;

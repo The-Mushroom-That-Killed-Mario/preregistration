@@ -2,5 +2,5 @@ package org.mushroom.service;
 
 import org.mushroom.model.Role;
 
-public interface RoleService extends BaseService<Role,Long>{
+public interface RoleService extends BaseService<Role, Long> {
 }

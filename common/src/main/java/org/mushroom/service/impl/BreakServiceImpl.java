@@ -19,6 +19,7 @@ public class BreakServiceImpl implements BreakService {
     private final BreakRepository timeBreakRepository;
 
     private final TimeDispatcher timeDispatcher;
+
     @Override
     public Optional<Break> findOne(Long id) {
         return Optional.of(findById(id));
@@ -43,7 +44,7 @@ public class BreakServiceImpl implements BreakService {
 
     @Override
     public Break create(Break timeBreak) {
-            timeBreak = checkRestore(timeBreak);
+        timeBreak = checkRestore(timeBreak);
         return timeBreakRepository.save(timeBreak);
     }
 

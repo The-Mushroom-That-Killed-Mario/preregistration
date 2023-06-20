@@ -31,8 +31,8 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public User findById(Long id) {
-        User user =  userRepository.findById(id).orElseThrow(() -> new EntityNotFoundException(id, User.class));
-        if (user.getDeleted()!=null){
+        User user = userRepository.findById(id).orElseThrow(() -> new EntityNotFoundException(id, User.class));
+        if (user.getDeleted() != null) {
             throw new DeletedEntityException(id, User.class);
         }
         return user;
@@ -41,7 +41,7 @@ public class UserServiceImpl implements UserService {
     @Override
     public List<User> findAll() {
         List<User> users = userRepository.findAll();
-        users.removeIf(x->x.getDeleted()!=null);
+        users.removeIf(x -> x.getDeleted() != null);
         return users;
     }
 

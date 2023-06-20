@@ -10,7 +10,6 @@ import org.mushroom.controller.mapper.TerminalMapper;
 import org.mushroom.controller.requests.create.TerminalCreateRequest;
 import org.mushroom.controller.requests.update.TerminalUpdateRequest;
 import org.mushroom.exception.ErrorMessage;
-import org.mushroom.model.Service;
 import org.mushroom.model.Terminal;
 import org.mushroom.service.TerminalService;
 import org.springframework.http.ResponseEntity;

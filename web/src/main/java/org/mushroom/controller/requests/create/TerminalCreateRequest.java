@@ -45,5 +45,4 @@ public class TerminalCreateRequest {
     private short port;
 
 
-
 }
