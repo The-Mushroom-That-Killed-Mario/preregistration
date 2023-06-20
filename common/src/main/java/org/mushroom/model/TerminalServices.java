@@ -65,7 +65,7 @@ public class TerminalServices {
 
     @OneToMany(mappedBy = "terminalService", fetch = FetchType.EAGER, cascade = CascadeType.ALL)
     @Builder.Default
-    private List<CalendarOutDays> outDays = Collections.emptyList();
+    private Set<CalendarOutDays> outDays = Collections.emptySet();
 
     @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "service_id")

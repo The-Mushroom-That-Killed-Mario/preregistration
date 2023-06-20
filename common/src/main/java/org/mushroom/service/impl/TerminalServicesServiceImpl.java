@@ -134,12 +134,9 @@ public class TerminalServicesServiceImpl implements TerminalServicesService {
                         .map(DaySchedule::getId)
                         .collect(Collectors.toSet())));
     }
-//    @Override
-//    public TerminalServices findByTerminalIdAndServiceId(Long terminalId, Long serviceId) {
-//
-//        terminalServicesRepository.findByTerminalIdAndServiceId(terminalId,serviceId);
-//
-//        return terminalServicesRepository.findByTerminalIdAndServiceId(terminalId,serviceId).get(0);
-//
-//    }
+
+    @Override
+    public TerminalServices findByTerminalIdAndServiceId(Long terminalId, Long serviceId) {
+        return terminalServicesRepository.findByTerminalIdAndServiceId(terminalId,serviceId);
+    }
 }

@@ -9,6 +9,6 @@ import java.util.Set;
 
 public interface CalendarOutDaysService extends BaseService<CalendarOutDays,Long> {
 
-    List<CalendarOutDays> create(Set<LocalDate> dates, TerminalServices terminalServices);
+    Set<CalendarOutDays> create(Set<LocalDate> dates, TerminalServices terminalServices);
 
 }

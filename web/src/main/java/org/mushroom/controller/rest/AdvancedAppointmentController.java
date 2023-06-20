@@ -61,7 +61,6 @@ public class AdvancedAppointmentController extends BaseController {
                             content = @Content(mediaType = "application/json", schema = @Schema(implementation = ErrorMessage.class))
                     )
             }
-
     )
     @GetMapping("/{id}")
     public ResponseEntity<AdvancedAppointment> getAdvancedAppointmentById(@PathVariable Long id) {

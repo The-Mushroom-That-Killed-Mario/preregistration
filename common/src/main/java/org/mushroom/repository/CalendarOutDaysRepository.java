@@ -11,8 +11,12 @@ import java.util.List;
 import java.util.Set;
 
 public interface CalendarOutDaysRepository extends JpaRepository<CalendarOutDays, Long> {
+
     @Query("SELECT c FROM CalendarOutDays c WHERE c.date IN :dates and c.terminalService.id = :termServId")
-    List<CalendarOutDays> findAllByDateAndTerminalServiceIdWithDeleted(@Param("dates") Set<LocalDate> dates, @Param("termServId") Long termServ);
+    Set<CalendarOutDays> findAllByDateAndTerminalServiceIdWithDeleted(@Param("dates") Set<LocalDate> dates, @Param("termServId") Long termServ);
+
     @Query("SELECT c FROM CalendarOutDays c WHERE c.date IN :dates and c.terminalService.id = :termServId and c.isActual=true")
     List<CalendarOutDays> findAllByDateAndTerminalServiceId(@Param("dates") Set<LocalDate> dates, @Param("termServId") Long termServ);
+
+//    Set<CalendarOutDays>saveAll(Set<CalendarOutDays> calendarOutDays);
 }

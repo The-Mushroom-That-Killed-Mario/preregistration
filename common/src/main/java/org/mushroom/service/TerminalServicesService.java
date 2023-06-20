@@ -18,7 +18,7 @@ public interface TerminalServicesService extends BaseService<TerminalServices, L
 
     TerminalServices deleteOutDaysByDates(Long id, Set<LocalDate> localDate);
 
-//    TerminalServices findByTerminalIdAndServiceId(Long terminalId, Long serviceId);
+    TerminalServices findByTerminalIdAndServiceId(Long terminalId, Long serviceId);
 
 //    TerminalServices create(
 //            Long serviceId,
