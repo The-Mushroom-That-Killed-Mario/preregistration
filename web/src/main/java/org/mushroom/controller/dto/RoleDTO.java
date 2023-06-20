@@ -8,6 +8,7 @@ import java.util.Collections;
 import java.util.Set;
 
 public class RoleDTO {
+
     private Integer id;
 
     private SystemRole name;

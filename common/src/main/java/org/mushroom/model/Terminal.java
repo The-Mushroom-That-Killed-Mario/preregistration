@@ -8,6 +8,7 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 import lombok.ToString;
+import org.springframework.cache.annotation.Cacheable;
 
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
@@ -38,6 +39,7 @@ import java.util.Set;
 })
 @JsonIgnoreProperties({"advancedAppointment", "terminalServices"})
 @Entity
+@Cacheable("terminals")
 @Table(name = "terminal")
 public class Terminal {
     @Id

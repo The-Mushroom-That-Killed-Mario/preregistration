@@ -1,5 +1,6 @@
 package org.mushroom.controller.dto;
 
+import lombok.Data;
 import org.mapstruct.Mapper;
 import org.mushroom.model.Service;
 import org.mushroom.model.Terminal;
@@ -9,7 +10,7 @@ import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.LocalTime;
 
-@Mapper
+@Data
 public class AdvancedAppointmentDTO {
     private Long id;
     private User user;

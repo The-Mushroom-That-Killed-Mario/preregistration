@@ -7,12 +7,14 @@ import org.mushroom.model.Terminal;
 import org.mushroom.repository.TerminalRepository;
 import org.mushroom.service.TerminalService;
 import org.mushroom.util.TimeDispatcher;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
 import java.util.Optional;
 
 @RequiredArgsConstructor
+@Cacheable("terminals")
 @Service
 public class TerminalServiceImpl implements TerminalService {
     private final TerminalRepository terminalRepository;
@@ -32,7 +34,7 @@ public class TerminalServiceImpl implements TerminalService {
         }
         return terminal;
     }
-
+    @Cacheable("terminals")
     @Override
     public List<Terminal> findAll() {
         List<Terminal> terminals = terminalRepository.findAll();
