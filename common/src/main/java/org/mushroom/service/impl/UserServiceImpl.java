@@ -3,11 +3,13 @@ package org.mushroom.service.impl;
 import lombok.RequiredArgsConstructor;
 import org.mushroom.exception.DeletedEntityException;
 import org.mushroom.exception.EntityNotFoundException;
+import org.mushroom.exception.MessagingException;
 import org.mushroom.model.SystemRole;
 import org.mushroom.model.User;
 import org.mushroom.repository.RoleRepository;
 import org.mushroom.repository.UserRepository;
 import org.mushroom.service.UserService;
+import org.mushroom.service.email.EmailService;
 import org.mushroom.util.TimeDispatcher;
 import org.springframework.stereotype.Service;
 
@@ -23,6 +25,8 @@ public class UserServiceImpl implements UserService {
     private final RoleRepository roleRepository;
 
     private final TimeDispatcher timeDispatcher;
+
+    private final EmailService emailService;
 
     @Override
     public Optional<User> findOne(Long id) {
@@ -49,7 +53,13 @@ public class UserServiceImpl implements UserService {
     @Override
     public User create(User user) {
         user.setRoles(roleRepository.findRolesByName(SystemRole.USER));
-        return userRepository.save(user);
+        user = userRepository.save(user);
+        try {
+            emailService.sendRegistrationEmail(user.getEmail(),user.getLogin());
+        } catch (javax.mail.MessagingException e) {
+            throw new MessagingException(e.getMessage());
+        }
+        return user;
     }
 
     @Override
