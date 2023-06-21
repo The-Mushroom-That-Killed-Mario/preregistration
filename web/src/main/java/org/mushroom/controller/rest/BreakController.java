@@ -14,6 +14,7 @@ import org.mushroom.exception.ErrorMessage;
 import org.mushroom.model.Break;
 import org.mushroom.service.BreakService;
 import org.springframework.http.ResponseEntity;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -59,6 +60,7 @@ public class BreakController extends BaseController {
             }
 
     )
+    @Transactional(readOnly = true)
     @GetMapping("/{id}")
     public ResponseEntity<BreakDTO> getBreakById(@PathVariable Long id) {
         Break timeBreak = timeBreakService.findById(id);
@@ -78,6 +80,7 @@ public class BreakController extends BaseController {
                     )
             }
     )
+    @Transactional(readOnly = true)
     @GetMapping
     public ResponseEntity<List<BreakDTO>> getAllBreaks() {
         return ResponseEntity.ok().body(
@@ -101,6 +104,7 @@ public class BreakController extends BaseController {
                     ),
             }
     )
+    @Transactional
     @PostMapping
     public ResponseEntity<BreakDTO> createBreak(@Valid @RequestBody BreakCreateRequest request, BindingResult result) {
         super.checkBindingResult(result);
@@ -131,6 +135,7 @@ public class BreakController extends BaseController {
                     )
             }
     )
+    @Transactional
     @PutMapping
     public ResponseEntity<BreakDTO> updateBreak(@Valid @RequestBody BreakUpdateRequest request, BindingResult result) {
         super.checkBindingResult(result);
@@ -153,6 +158,7 @@ public class BreakController extends BaseController {
                     )
             }
     )
+    @Transactional
     @DeleteMapping("/{id}")
     public ResponseEntity<Void> deleteBreak(@PathVariable Long id) {
         timeBreakService.softDelete(id);

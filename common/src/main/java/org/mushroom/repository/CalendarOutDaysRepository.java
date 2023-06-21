@@ -17,5 +17,4 @@ public interface CalendarOutDaysRepository extends JpaRepository<CalendarOutDays
     @Query("SELECT c FROM CalendarOutDays c WHERE c.date IN :dates and c.terminalService.id = :termServId and c.isActual=true")
     List<CalendarOutDays> findAllByDateAndTerminalServiceId(@Param("dates") Set<LocalDate> dates, @Param("termServId") Long termServ);
 
-//    Set<CalendarOutDays>saveAll(Set<CalendarOutDays> calendarOutDays);
 }

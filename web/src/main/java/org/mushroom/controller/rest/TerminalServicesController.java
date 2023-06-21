@@ -15,6 +15,7 @@ import org.mushroom.model.DaySchedule;
 import org.mushroom.model.TerminalServices;
 import org.mushroom.service.TerminalServicesService;
 import org.springframework.http.ResponseEntity;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -60,8 +61,8 @@ public class TerminalServicesController extends BaseController {
                             content = @Content(mediaType = "application/json", schema = @Schema(implementation = ErrorMessage.class))
                     )
             }
-
     )
+    @Transactional(readOnly = true)
     @GetMapping("/{id}")
     public ResponseEntity<TerminalServicesDTO> getTerminalServicesById(@PathVariable Long id) {
         TerminalServices terminalServices = terminalServicesService.findById(id);
@@ -81,6 +82,7 @@ public class TerminalServicesController extends BaseController {
                     )
             }
     )
+    @Transactional(readOnly = true)
     @GetMapping
     public ResponseEntity<List<TerminalServicesDTO>> getAllTerminalServices() {
         return ResponseEntity.ok().body(terminalServicesService.findAll()
@@ -105,6 +107,7 @@ public class TerminalServicesController extends BaseController {
                     ),
             }
     )
+    @Transactional
     @PostMapping
     public ResponseEntity<TerminalServicesDTO> createTerminalServices(@Valid @RequestBody TerminalServicesCreateRequest request, BindingResult result) {
         super.checkBindingResult(result);
@@ -137,6 +140,7 @@ public class TerminalServicesController extends BaseController {
                     )
             }
     )
+    @Transactional
     @PutMapping
     public ResponseEntity<TerminalServicesDTO> updateTerminalServices(@Valid @RequestBody TerminalServicesUpdateRequest request, BindingResult result) {
         super.checkBindingResult(result);
@@ -162,6 +166,7 @@ public class TerminalServicesController extends BaseController {
                     )
             }
     )
+    @Transactional
     @DeleteMapping("/{id}")
     public ResponseEntity<Void> deleteTerminalServices(@PathVariable Long id) {
         terminalServicesService.softDelete(id);
@@ -189,6 +194,7 @@ public class TerminalServicesController extends BaseController {
                     )
             }
     )
+    @Transactional
     @PostMapping("/{id}/outDays/")
     public ResponseEntity<TerminalServicesDTO> addOutDay(@Valid @PathVariable Long id, @RequestBody Set<LocalDate> localDates, BindingResult result) {
         super.checkBindingResult(result);
@@ -212,6 +218,7 @@ public class TerminalServicesController extends BaseController {
                     )
             }
     )
+    @Transactional
     @DeleteMapping("/{id}/out_Days/")
     public ResponseEntity<TerminalServicesDTO> deleteOutDaysByDates(@Valid @PathVariable Long id, @Valid @RequestBody Set<LocalDate> localDates, BindingResult result) {
         super.checkBindingResult(result);

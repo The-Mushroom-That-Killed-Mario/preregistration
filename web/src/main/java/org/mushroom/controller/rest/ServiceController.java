@@ -13,6 +13,7 @@ import org.mushroom.exception.ErrorMessage;
 import org.mushroom.model.Service;
 import org.mushroom.service.ServiceService;
 import org.springframework.http.ResponseEntity;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -57,6 +58,7 @@ public class ServiceController extends BaseController {
             }
 
     )
+    @Transactional(readOnly = true)
     @GetMapping("/{id}")
     public ResponseEntity<Service> getServiceById(@PathVariable Long id) {
         Service service = serviceService.findById(id);
@@ -76,6 +78,7 @@ public class ServiceController extends BaseController {
                     )
             }
     )
+    @Transactional(readOnly = true)
     @GetMapping
     public ResponseEntity<List<Service>> getAllServices() {
         return ResponseEntity.ok().body(serviceService.findAll());
@@ -97,6 +100,7 @@ public class ServiceController extends BaseController {
                     ),
             }
     )
+    @Transactional
     @PostMapping
     public ResponseEntity<Service> createService(@Valid @RequestBody ServiceCreateRequest request, BindingResult result) {
         super.checkBindingResult(result);
@@ -126,6 +130,7 @@ public class ServiceController extends BaseController {
                     )
             }
     )
+    @Transactional
     @PutMapping
     public ResponseEntity<Service> updateService(@Valid @RequestBody ServiceUpdateRequest request, BindingResult result) {
         super.checkBindingResult(result);
@@ -148,6 +153,7 @@ public class ServiceController extends BaseController {
                     )
             }
     )
+    @Transactional
     @DeleteMapping("/{id}")
     public ResponseEntity<Void> deleteService(@PathVariable Long id) {
         serviceService.softDelete(id);

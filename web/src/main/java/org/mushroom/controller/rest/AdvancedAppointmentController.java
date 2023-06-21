@@ -14,6 +14,7 @@ import org.mushroom.exception.ErrorMessage;
 import org.mushroom.model.AdvancedAppointment;
 import org.mushroom.service.AdvancedAppointmentService;
 import org.springframework.http.ResponseEntity;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -57,6 +58,7 @@ public class AdvancedAppointmentController extends BaseController {
                     )
             }
     )
+    @Transactional(readOnly = true)
     @GetMapping("/{id}")
     public ResponseEntity<AdvancedAppointment> getAdvancedAppointmentById(@PathVariable Long id) {
         AdvancedAppointment advancedAppointment = advancedAppointmentService.findById(id);
@@ -76,6 +78,7 @@ public class AdvancedAppointmentController extends BaseController {
                     )
             }
     )
+    @Transactional(readOnly = true)
     @GetMapping
     public ResponseEntity<List<AdvancedAppointment>> getAllAdvancedAppointments() {
         return ResponseEntity.ok().body(advancedAppointmentService.findAll());
@@ -97,6 +100,7 @@ public class AdvancedAppointmentController extends BaseController {
                     ),
             }
     )
+    @Transactional
     @PostMapping
     public ResponseEntity<AdvancedAppointment> createAdvancedAppointment(@Valid @RequestBody AdvancedAppointmentCreateRequest request, BindingResult result) {
         super.checkBindingResult(result);
@@ -129,6 +133,7 @@ public class AdvancedAppointmentController extends BaseController {
                     )
             }
     )
+    @Transactional
     @PutMapping
     public ResponseEntity<AdvancedAppointment> updateAdvancedAppointment(@Valid @RequestBody AdvancedAppointmentUpdateRequest request, BindingResult result) {
         super.checkBindingResult(result);
@@ -151,6 +156,7 @@ public class AdvancedAppointmentController extends BaseController {
                     )
             }
     )
+    @Transactional
     @DeleteMapping("/{id}")
     public ResponseEntity<Void> deleteAdvancedAppointment(@PathVariable Long id) {
         advancedAppointmentService.softDelete(id);

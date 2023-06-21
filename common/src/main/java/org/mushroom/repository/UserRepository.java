@@ -7,9 +7,4 @@ import org.springframework.stereotype.Repository;
 @Repository
 public interface UserRepository extends JpaRepository<User, Long> {
 
-
-//    @Query("SELECT u FROM User u JOIN u.roles r WHERE r.id = :roleId")
-//    List<User> findByRoleId(@Param("roleId") Integer roleId);
-//    List<User> findAllByDeletedNullOrderById();
-//    User findByIdAndDeletedNull(Long id);
 }

@@ -1,7 +1,6 @@
 package org.mushroom.repository;
 
 import org.mushroom.model.TerminalServices;
-import org.springframework.cache.annotation.Cacheable;
 import org.springframework.data.jpa.domain.Specification;
 import org.springframework.data.jpa.repository.JpaRepository;
 

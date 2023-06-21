@@ -14,6 +14,7 @@ import org.mushroom.exception.ErrorMessage;
 import org.mushroom.model.User;
 import org.mushroom.service.UserService;
 import org.springframework.http.ResponseEntity;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -59,6 +60,7 @@ public class UserController extends BaseController {
             }
 
     )
+    @Transactional(readOnly = true)
     @GetMapping("/{id}")
     public ResponseEntity<UserDTO> getUserById(@PathVariable Long id) {
         User user = userService.findById(id);
@@ -78,6 +80,7 @@ public class UserController extends BaseController {
                     )
             }
     )
+    @Transactional(readOnly = true)
     @GetMapping
     public ResponseEntity<List<UserDTO>> getAllUsers() {
         return ResponseEntity.ok().body(userService.findAll().stream().map(userMapper::toDto).collect(Collectors.toList()));
@@ -99,6 +102,7 @@ public class UserController extends BaseController {
                     ),
             }
     )
+    @Transactional
     @PostMapping
     public ResponseEntity<UserDTO> createUser(@Valid @RequestBody UserCreateRequest request, BindingResult result) {
         super.checkBindingResult(result);
@@ -129,6 +133,7 @@ public class UserController extends BaseController {
                     )
             }
     )
+    @Transactional
     @PutMapping
     public ResponseEntity<UserDTO> updateUser(@Valid @RequestBody UserUpdateRequest request, BindingResult result) {
         super.checkBindingResult(result);
@@ -151,6 +156,7 @@ public class UserController extends BaseController {
                     )
             }
     )
+    @Transactional
     @DeleteMapping("/{id}")
     public ResponseEntity<Void> deleteUser(@PathVariable Long id) {
         userService.softDelete(id);

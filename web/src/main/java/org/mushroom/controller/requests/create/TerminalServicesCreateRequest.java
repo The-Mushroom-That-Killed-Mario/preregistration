@@ -23,6 +23,4 @@ public class TerminalServicesCreateRequest {
 
     private Long terminalId;
 
-    //    private Set<LocalDate> outDays;
-
 }

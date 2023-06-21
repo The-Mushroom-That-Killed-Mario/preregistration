@@ -18,5 +18,4 @@ public class CalendarOutDaysDTO {
 
     private boolean isActual;
 
-//    private TerminalServicesDTO terminalService;
 }

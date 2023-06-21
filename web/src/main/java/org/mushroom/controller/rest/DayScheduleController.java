@@ -14,6 +14,7 @@ import org.mushroom.exception.ErrorMessage;
 import org.mushroom.model.DaySchedule;
 import org.mushroom.service.DayScheduleService;
 import org.springframework.http.ResponseEntity;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -59,6 +60,7 @@ public class DayScheduleController extends BaseController {
             }
 
     )
+    @Transactional(readOnly = true)
     @GetMapping("/{id}")
     public ResponseEntity<DayScheduleDTO> getDayScheduleById(@PathVariable Long id) {
         DaySchedule daySchedule = dayScheduleService.findById(id);
@@ -78,6 +80,7 @@ public class DayScheduleController extends BaseController {
                     )
             }
     )
+    @Transactional(readOnly = true)
     @GetMapping
     public ResponseEntity<List<DayScheduleDTO>> getAllDaySchedules() {
         return ResponseEntity.ok().body(dayScheduleService.findAll().stream()
@@ -101,6 +104,7 @@ public class DayScheduleController extends BaseController {
                     ),
             }
     )
+    @Transactional
     @PostMapping
     public ResponseEntity<DayScheduleDTO> createDaySchedule(@Valid @RequestBody DayScheduleCreateRequest request, BindingResult result) {
         super.checkBindingResult(result);
@@ -130,6 +134,7 @@ public class DayScheduleController extends BaseController {
                     )
             }
     )
+    @Transactional
     @PutMapping
     public ResponseEntity<DayScheduleDTO> updateDaySchedule(@Valid @RequestBody DayScheduleUpdateRequest request, BindingResult result) {
         super.checkBindingResult(result);
@@ -152,6 +157,7 @@ public class DayScheduleController extends BaseController {
                     )
             }
     )
+    @Transactional
     @DeleteMapping("/{id}")
     public ResponseEntity<Void> deleteDaySchedule(@PathVariable Long id) {
         dayScheduleService.softDelete(id);

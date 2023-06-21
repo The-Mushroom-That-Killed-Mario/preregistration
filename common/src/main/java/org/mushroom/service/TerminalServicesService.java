@@ -14,19 +14,4 @@ public interface TerminalServicesService extends BaseService<TerminalServices, L
 
     TerminalServices findByTerminalIdAndServiceId(Long terminalId, Long serviceId);
 
-//    TerminalServices create(
-//            Long serviceId,
-//            Long terminalId,
-//            Set<Long> scheduleDaysIds,
-//            Set<LocalDate> outDays
-//    );
-//    TerminalServices create(
-//            Long terminalServicesId,
-//            Long serviceId,
-//            Long terminalId,
-//            Set<Long> scheduleDaysIds,
-//            Set<LocalDate> outDays
-//    );
-
-
 }

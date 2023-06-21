@@ -16,6 +16,7 @@ import javax.validation.constraints.Positive;
 @AllArgsConstructor
 @Validated
 public class UserUpdateRequest extends UserCreateRequest {
+
     @NotNull
     @Positive
     private Long id;

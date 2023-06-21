@@ -26,12 +26,10 @@ public class CacheConfiguration {
     @Bean
     public CacheManager cacheManager() {
         CaffeineCacheManager cacheManager =
-                new CaffeineCacheManager("terminals"
+                new CaffeineCacheManager(
+                        "terminals"
                         , "users"
-                        , "services"
-//                        , "calendarsOutDays"
-//                        , "terminalsServices"
-                );
+                        , "services");
         cacheManager.setCaffeine(cacheProperties());
         return cacheManager;
     }

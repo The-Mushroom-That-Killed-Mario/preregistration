@@ -25,15 +25,23 @@ spring:
         current_session_context_class: org.springframework.orm.hibernate5.SpringSessionContext
         format_sql: true
         show_sql: true
-#  mapper:
-#    matching-strategy: STANDARD
-#    skip-null-enabled: true
-###Отображение журнала запросов hibernate
-#logging:
-#  level:
-#    org:
-#      hibernate:
-#        type: trace
+  mail:
+    protocol: smtp
+    host: smtp.gmail.com
+    port: 587
+    username: login
+    password: pass
+    properties:
+      mail:
+        smtp:
+          auth: true
+          starttls.enable: true
+
+---
+caffeine:
+  initialCapacity: 16
+  maximumCapacity: 1000
+  expireAfterAccessSeconds: 1000
 
 ---
 

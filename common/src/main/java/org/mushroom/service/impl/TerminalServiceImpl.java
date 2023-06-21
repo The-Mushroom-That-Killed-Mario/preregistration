@@ -37,7 +37,7 @@ public class TerminalServiceImpl implements TerminalService {
         return terminal;
     }
 
-//    @Cacheable("terminals")
+    //    @Cacheable("terminals")
     @Override
     public List<Terminal> findAll() {
         List<Terminal> terminals = terminalRepository.findAll();
@@ -45,13 +45,13 @@ public class TerminalServiceImpl implements TerminalService {
         return terminals;
     }
 
-    @CachePut(value = "terminals",key = "#terminal.id")
+    @CachePut(value = "terminals", key = "#terminal.id")
     @Override
     public Terminal create(Terminal terminal) {
         return terminalRepository.save(terminal);
     }
 
-    @CachePut(value = "terminals",key = "#terminal.id")
+    @CachePut(value = "terminals", key = "#terminal.id")
     @Override
     public Terminal update(Terminal terminal) {
         Terminal tempTerminal = findById(terminal.getId());
@@ -59,13 +59,13 @@ public class TerminalServiceImpl implements TerminalService {
         return terminalRepository.save(terminal);
     }
 
-    @CacheEvict(value = "terminals",key = "#id")
+    @CacheEvict(value = "terminals", key = "#id")
     @Override
     public void delete(Long id) {
         terminalRepository.deleteById(id);
     }
 
-    @CacheEvict(value = "terminals",key = "#id")
+    @CacheEvict(value = "terminals", key = "#id")
     @Override
     public void softDelete(Long id) {
         Terminal terminal = findById(id);

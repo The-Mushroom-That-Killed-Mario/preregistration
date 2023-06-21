@@ -10,7 +10,6 @@ public interface BaseService<E, ID> {
     E findById(ID id);
 
     List<E> findAll();
-//    Page<E> findAll(Pageable pageable);
 
     E create(E object);
 

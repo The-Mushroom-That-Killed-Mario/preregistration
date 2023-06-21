@@ -46,7 +46,7 @@ public class UserServiceImpl implements UserService {
         return user;
     }
 
-//    @Cacheable("users")
+    //    @Cacheable("users")
     @Override
     public List<User> findAll() {
         List<User> users = userRepository.findAll();
@@ -54,20 +54,20 @@ public class UserServiceImpl implements UserService {
         return users;
     }
 
-    @CachePut(value = "users",key = "#user.id")
+    @CachePut(value = "users", key = "#user.id")
     @Override
     public User create(User user) {
         user.setRoles(roleRepository.findRolesByName(SystemRole.USER));
         user = userRepository.save(user);
         try {
-            emailService.sendRegistrationEmail(user.getEmail(),user.getLogin());
+            emailService.sendRegistrationEmail(user.getEmail(), user.getLogin());
         } catch (javax.mail.MessagingException e) {
             throw new MessagingException(e.getMessage());
         }
         return user;
     }
 
-    @CachePut(value = "users",key = "#user.id")
+    @CachePut(value = "users", key = "#user.id")
     @Override
     public User update(User user) {
         User tempUser = findById(user.getId());
@@ -77,13 +77,13 @@ public class UserServiceImpl implements UserService {
         return userRepository.save(user);
     }
 
-    @CacheEvict(value = "users",key = "#id")
+    @CacheEvict(value = "users", key = "#id")
     @Override
     public void delete(Long id) {
         userRepository.deleteById(id);
     }
 
-    @CacheEvict(value = "users",key = "#id")
+    @CacheEvict(value = "users", key = "#id")
     @Override
     public void softDelete(Long id) {
         User user = findById(id);

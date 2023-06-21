@@ -22,7 +22,4 @@ public class CalendarOutDaysCreateRequest {
     @NotNull
     private LocalDate date;
 
-//    @Schema(requiredMode = Schema.RequiredMode.REQUIRED, type = "TerminalServices", description = "terminalService")
-//    @NotNull
-//    private TerminalServices terminalService;
 }

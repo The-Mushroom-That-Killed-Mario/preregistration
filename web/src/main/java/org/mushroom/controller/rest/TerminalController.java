@@ -13,6 +13,7 @@ import org.mushroom.exception.ErrorMessage;
 import org.mushroom.model.Terminal;
 import org.mushroom.service.TerminalService;
 import org.springframework.http.ResponseEntity;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -57,6 +58,7 @@ public class TerminalController extends BaseController {
             }
 
     )
+    @Transactional(readOnly = true)
     @GetMapping("/{id}")
     public ResponseEntity<Terminal> getTerminalById(@PathVariable Long id) {
         Terminal terminal = terminalService.findById(id);
@@ -76,6 +78,7 @@ public class TerminalController extends BaseController {
                     )
             }
     )
+    @Transactional(readOnly = true)
     @GetMapping
     public ResponseEntity<List<Terminal>> getAllTerminals() {
         return ResponseEntity.ok().body(terminalService.findAll());
@@ -97,6 +100,7 @@ public class TerminalController extends BaseController {
                     ),
             }
     )
+    @Transactional
     @PostMapping
     public ResponseEntity<Terminal> createTerminal(@Valid @RequestBody TerminalCreateRequest request, BindingResult result) {
         super.checkBindingResult(result);
@@ -126,6 +130,7 @@ public class TerminalController extends BaseController {
                     )
             }
     )
+    @Transactional
     @PutMapping
     public ResponseEntity<Terminal> updateTerminal(@Valid @RequestBody TerminalUpdateRequest request, BindingResult result) {
         super.checkBindingResult(result);
@@ -148,6 +153,7 @@ public class TerminalController extends BaseController {
                     )
             }
     )
+    @Transactional
     @DeleteMapping("/{id}")
     public ResponseEntity<Void> deleteTerminal(@PathVariable Long id) {
         terminalService.softDelete(id);

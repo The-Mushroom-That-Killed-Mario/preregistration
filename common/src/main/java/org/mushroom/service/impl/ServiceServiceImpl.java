@@ -45,13 +45,13 @@ public class ServiceServiceImpl implements ServiceService {
         return services;
     }
 
-    @CachePut(value = "services",key = "#service.id")
+    @CachePut(value = "services", key = "#service.id")
     @Override
     public Service create(Service service) {
         return serviceRepository.save(service);
     }
 
-    @CachePut(value = "services",key = "#service.id")
+    @CachePut(value = "services", key = "#service.id")
     @Override
     public Service update(Service service) {
         Service tempService = findById(service.getId());
@@ -61,13 +61,13 @@ public class ServiceServiceImpl implements ServiceService {
         return serviceRepository.save(service);
     }
 
-    @CacheEvict(value = "services",key = "#id")
+    @CacheEvict(value = "services", key = "#id")
     @Override
     public void delete(Long id) {
         serviceRepository.deleteById(id);
     }
 
-    @CacheEvict(value = "services",key = "#id")
+    @CacheEvict(value = "services", key = "#id")
     @Override
     public void softDelete(Long id) {
         Service service = findById(id);
