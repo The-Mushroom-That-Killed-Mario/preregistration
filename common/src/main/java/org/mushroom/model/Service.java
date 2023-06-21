@@ -8,6 +8,7 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 import lombok.ToString;
+import org.springframework.cache.annotation.Cacheable;
 
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
@@ -37,6 +38,7 @@ import java.util.Set;
         "advancedAppointment", "terminalService"
 })
 @JsonIgnoreProperties({"advancedAppointment", "terminalService"})
+@Cacheable("services")
 public class Service {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

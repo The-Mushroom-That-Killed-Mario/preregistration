@@ -9,6 +9,7 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 import lombok.ToString;
+import org.springframework.cache.annotation.Cacheable;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -40,6 +41,7 @@ import java.util.Set;
 @JsonIgnoreProperties({"roles, advancedAppointment"})
 @Entity
 @Table(name = "\"user\"")
+@Cacheable("users")
 public class User {
 
     @Id

@@ -32,18 +32,17 @@ import java.util.Set;
 @Builder
 @Setter
 @Getter
-@ToString(
-        exclude = {
-                "scheduleDays", "outDays", "terminal", "service"
-        }
-)
 @EqualsAndHashCode(
         exclude = {
                 "scheduleDays", "outDays", "terminal", "service"
         }
 )
+@ToString(
+        exclude = {
+                "scheduleDays", "outDays", "terminal", "service"
+        }
+)
 @JsonIgnoreProperties({"terminalService"})
-
 @Entity
 @Table(name = "terminal_services")
 public class TerminalServices {

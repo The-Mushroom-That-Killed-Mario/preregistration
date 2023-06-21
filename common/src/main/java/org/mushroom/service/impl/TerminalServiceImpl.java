@@ -7,6 +7,8 @@ import org.mushroom.model.Terminal;
 import org.mushroom.repository.TerminalRepository;
 import org.mushroom.service.TerminalService;
 import org.mushroom.util.TimeDispatcher;
+import org.springframework.cache.annotation.CacheEvict;
+import org.springframework.cache.annotation.CachePut;
 import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Service;
 
@@ -14,7 +16,6 @@ import java.util.List;
 import java.util.Optional;
 
 @RequiredArgsConstructor
-@Cacheable("terminals")
 @Service
 public class TerminalServiceImpl implements TerminalService {
     private final TerminalRepository terminalRepository;
@@ -26,6 +27,7 @@ public class TerminalServiceImpl implements TerminalService {
         return Optional.of(findById(id));
     }
 
+    @Cacheable("terminals")
     @Override
     public Terminal findById(Long id) {
         Terminal terminal = terminalRepository.findById(id).orElseThrow(() -> new EntityNotFoundException(id, Terminal.class));
@@ -34,7 +36,8 @@ public class TerminalServiceImpl implements TerminalService {
         }
         return terminal;
     }
-    @Cacheable("terminals")
+
+//    @Cacheable("terminals")
     @Override
     public List<Terminal> findAll() {
         List<Terminal> terminals = terminalRepository.findAll();
@@ -42,12 +45,13 @@ public class TerminalServiceImpl implements TerminalService {
         return terminals;
     }
 
-
+    @CachePut(value = "terminals",key = "#terminal.id")
     @Override
     public Terminal create(Terminal terminal) {
         return terminalRepository.save(terminal);
     }
 
+    @CachePut(value = "terminals",key = "#terminal.id")
     @Override
     public Terminal update(Terminal terminal) {
         Terminal tempTerminal = findById(terminal.getId());
@@ -55,11 +59,13 @@ public class TerminalServiceImpl implements TerminalService {
         return terminalRepository.save(terminal);
     }
 
+    @CacheEvict(value = "terminals",key = "#id")
     @Override
     public void delete(Long id) {
         terminalRepository.deleteById(id);
     }
 
+    @CacheEvict(value = "terminals",key = "#id")
     @Override
     public void softDelete(Long id) {
         Terminal terminal = findById(id);

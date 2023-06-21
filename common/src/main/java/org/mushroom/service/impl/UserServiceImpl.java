@@ -11,6 +11,9 @@ import org.mushroom.repository.UserRepository;
 import org.mushroom.service.UserService;
 import org.mushroom.service.email.EmailService;
 import org.mushroom.util.TimeDispatcher;
+import org.springframework.cache.annotation.CacheEvict;
+import org.springframework.cache.annotation.CachePut;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -33,6 +36,7 @@ public class UserServiceImpl implements UserService {
         return Optional.of(findById(id));
     }
 
+    @Cacheable("users")
     @Override
     public User findById(Long id) {
         User user = userRepository.findById(id).orElseThrow(() -> new EntityNotFoundException(id, User.class));
@@ -42,6 +46,7 @@ public class UserServiceImpl implements UserService {
         return user;
     }
 
+//    @Cacheable("users")
     @Override
     public List<User> findAll() {
         List<User> users = userRepository.findAll();
@@ -49,7 +54,7 @@ public class UserServiceImpl implements UserService {
         return users;
     }
 
-
+    @CachePut(value = "users",key = "#user.id")
     @Override
     public User create(User user) {
         user.setRoles(roleRepository.findRolesByName(SystemRole.USER));
@@ -62,6 +67,7 @@ public class UserServiceImpl implements UserService {
         return user;
     }
 
+    @CachePut(value = "users",key = "#user.id")
     @Override
     public User update(User user) {
         User tempUser = findById(user.getId());
@@ -71,11 +77,13 @@ public class UserServiceImpl implements UserService {
         return userRepository.save(user);
     }
 
+    @CacheEvict(value = "users",key = "#id")
     @Override
     public void delete(Long id) {
         userRepository.deleteById(id);
     }
 
+    @CacheEvict(value = "users",key = "#id")
     @Override
     public void softDelete(Long id) {
         User user = findById(id);

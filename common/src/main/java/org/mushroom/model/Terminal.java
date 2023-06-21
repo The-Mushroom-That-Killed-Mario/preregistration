@@ -39,8 +39,8 @@ import java.util.Set;
 })
 @JsonIgnoreProperties({"advancedAppointment", "terminalServices"})
 @Entity
-@Cacheable("terminals")
 @Table(name = "terminal")
+@Cacheable("terminals")
 public class Terminal {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

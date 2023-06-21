@@ -27,12 +27,12 @@ import java.time.LocalDateTime;
 @Builder
 @Setter
 @Getter
-@ToString(
+@EqualsAndHashCode(
         exclude = {
                 "terminalService"
         }
 )
-@EqualsAndHashCode(
+@ToString(
         exclude = {
                 "terminalService"
         }
